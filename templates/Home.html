@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cloud File Management</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../templates/bootstrap.min.css"/>
+    <script src="../templates/jquery-3.3.1.min.js"></script>
+    <script src="../templates/bootstrap.min.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        .homeContainer {
+            position: absolute;
+            top: 0;
+            bottom:0;
+            right: 0;
+            left: 0;
+            background: url("../templates/cloud.jpg") no-repeat;
+            background-size: 100% 100%;
+        }
+        .login,.regist{
+            position: absolute;
+            top: 50%;
+            left:50%;
+            transform: translate(-50%,-50%);
+            background: skyblue;
+            padding: 25px 30px;
+            border-radius: 5px;
+        }
+        .regist {
+            background: whitesmoke;
+        }
+        .nametitle {
+            position: absolute;
+            font-size: 28px;
+            color: #fff;
+            transform: rotate(-30deg);
+            top: 9%;
+            left: 1%;
+        }
+        .login_registe_nav {
+            margin-left: 85%;
+            margin-right: 1%;
+            margin-top: 2%;
+        }
+        .guid {
+            text-decoration: underline;
+            color: #ffffff;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="homeContainer">
+        <div class="nametitle">云文件管理系统</div>
+        <div class="login_registe_nav">
+            <ul class="nav">
+                  <li class="nav-item" onclick="clicklogin()">
+                    <a class="nav-link active" href="#"><span class="guid">登陆</span></a>
+                  </li>
+                  <li class="nav-item" onclick="clickregist()">
+                    <a class="nav-link" href="#"><span class="guid">注册</span></a>
+                  </li>
+            </ul>
+        </div>
+        <div class="login">
+            <form METHOD="post" action="/login/" onsubmit="return datacheck(1)" target="nm_iframe">
+                  <div class="form-group">
+                    <label for="login_username">用户名:</label>
+                    <input type="text" class="form-control" id="login_username" name="username" placeholder="Enter Username">
+                  </div>
+                  <div class="form-group">
+                    <label for="login_password">密码</label>
+                    <input type="password" class="form-control" id="login_password" name="password" placeholder="Enter Password">
+                  </div>
+                  <button type="submit" class="btn btn-primary">登陆</button>
+            </form>
+        </div>
+        <div class="regist">
+                <form METHOD="post" action="/regist/" onsubmit="return datacheck(2)" target="nm_iframe">
+                      <div class="form-group">
+                        <label for="regist_username">用户名:</label>
+                        <input type="text" class="form-control" name="username" id="regist_username"  placeholder="Enter Username">
+                      </div>
+                      <div class="form-group">
+                        <label for="regist_password">密码</label>
+                        <input type="password" class="form-control" name="password" id="regist_password" placeholder="Enter Password">
+                      </div>
+                      <button type="submit" class="btn btn-primary">注册</button>
+                </form>
+        </div>
+        <iframe id="id_iframe" name="nm_iframe" style="display:none;"></iframe>
+    </div>
+    <script>
+        clicklogin();
+        function clicklogin() {
+            $('.login').show();
+            $('.regist').hide();
+        }
+        function clickregist() {
+            $('.login').hide();
+            $('.regist').show();
+        }
+        function datacheck(kind) {
+            let name = "",password = "", msg = "";
+            if(kind == 1) { // 登陆校验
+                   name = document.querySelector("#login_username").value;
+                   password = document.querySelector("#login_password").value;
+            }else {
+                  name = document.querySelector("#regist_username").value;
+                  password = document.querySelector("#regist_password").value;
+            }
+            console.log(name + " " + password)
+{#            if(!name || !name.trim()|| !password || !password.trim() ) {#}
+{#                msg = "账号信息不合法！";#}
+{#                alert(msg);#}
+{#                return false;#}
+{#            }#}
+{#            sessionStorage.setItem("username",name);#}
+            return true
+        }
+    </script>
+</body>
+</html>

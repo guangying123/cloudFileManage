@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cloud File Management</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../templates/bootstrap.min.css"/>
+    <script src="../templates/jquery-3.3.1.min.js"></script>
+    <script src="../templates/bootstrap.min.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        .uploadfileform {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="uploadcontain">
+        <div class="uploadfileform">
+            <form action="/uploadfile/" method="post" enctype="multipart/form-data">
+                <input placeholder="选择文件" type="file" name="myfile"/>
+                <button type="submit">上传</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
