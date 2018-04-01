@@ -67,7 +67,7 @@
             </ul>
         </div>
         <div class="login">
-            <form METHOD="post" action="/login/" onsubmit="return datacheck(1)" target="nm_iframe">
+            <form >
                   <div class="form-group">
                     <label for="login_username">用户名:</label>
                     <input type="text" class="form-control" id="login_username" name="username" placeholder="Enter Username">
@@ -76,11 +76,11 @@
                     <label for="login_password">密码</label>
                     <input type="password" class="form-control" id="login_password" name="password" placeholder="Enter Password">
                   </div>
-                  <button type="submit" class="btn btn-primary">登陆</button>
-            </form>
+                  <button type="button" class="btn btn-primary" onclick="tologin()">登陆</button>
+            </form >
         </div>
         <div class="regist">
-                <form METHOD="post" action="/regist/" onsubmit="return datacheck(2)" target="nm_iframe">
+                <form>
                       <div class="form-group">
                         <label for="regist_username">用户名:</label>
                         <input type="text" class="form-control" name="username" id="regist_username"  placeholder="Enter Username">
@@ -89,10 +89,9 @@
                         <label for="regist_password">密码</label>
                         <input type="password" class="form-control" name="password" id="regist_password" placeholder="Enter Password">
                       </div>
-                      <button type="submit" class="btn btn-primary">注册</button>
+                      <button type="button" class="btn btn-primary" onclick="toregist()">注册</button>
                 </form>
         </div>
-        <iframe id="id_iframe" name="nm_iframe" style="display:none;"></iframe>
     </div>
     <script>
         clicklogin();
@@ -104,23 +103,54 @@
             $('.login').hide();
             $('.regist').show();
         }
-        function datacheck(kind) {
-            let name = "",password = "", msg = "";
-            if(kind == 1) { // 登陆校验
-                   name = document.querySelector("#login_username").value;
-                   password = document.querySelector("#login_password").value;
+        //登陆
+        function tologin() {
+            let name = document.querySelector("#login_username").value;
+            let password = document.querySelector("#login_password").value;
+            if(!isvalid(name) || !isvalid(password)) {
+                alert("用户名账号不合法,请重新输入!");
             }else {
-                  name = document.querySelector("#regist_username").value;
-                  password = document.querySelector("#regist_password").value;
+                  $.post("/login/",{
+                    username: name,
+                    password: password
+                },function (data,status) {
+                      data = JSON.parse(data);
+                      switch (data.error) {
+                          case 0:  saveusername(name); window.location.href="/uploadfilepage/"; break;
+                          case -1: alert("用户名或密码错误!");break;
+                          default : alert("服务器繁忙，请稍后重试!");break;
+                      }
+                });
             }
-            console.log(name + " " + password)
-{#            if(!name || !name.trim()|| !password || !password.trim() ) {#}
-{#                msg = "账号信息不合法！";#}
-{#                alert(msg);#}
-{#                return false;#}
-{#            }#}
-{#            sessionStorage.setItem("username",name);#}
-            return true
+        }
+        //注册
+        function toregist() {
+            let name = document.querySelector("#regist_username").value;
+            let password = document.querySelector("#regist_password").value;
+            if(!isvalid(name) || !isvalid(password)) {
+                alert("用户名账号不合法,请重新输入!");
+            }else {
+                $.post("/regist/",{
+                    username: name,
+                    password: password
+                },function (data,status) {
+                    data = JSON.parse(data);
+                    switch (data.error) {
+                        case 0: alert("注册成功!"); setTimeout(() => { saveusername(name);window.location.href="/uploadfilepage/"},300); break;
+                        case -1: alert("用户名已被注册!");break;
+                        default: alert("服务器繁忙，请稍后再试！");break;
+                    }
+                });
+            }
+        }
+        function  isvalid(data) {
+            if(!data || !data.trim()) {
+                return false;
+            }
+            return true;
+        }
+        function  saveusername(username) {
+            sessionStorage.setItem("username",username);
         }
     </script>
 </body>

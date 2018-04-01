@@ -12,23 +12,107 @@
             padding: 0;
             margin: 0;
         }
-        .uploadfileform {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%,-50%);
-        }
-
     </style>
 </head>
 <body>
-    <div class="uploadcontain">
-        <div class="uploadfileform">
-            <form action="/uploadfile/" method="post" enctype="multipart/form-data">
-                <input placeholder="选择文件" type="file" name="myfile"/>
-                <button type="submit">上传</button>
-            </form>
+    <form class="form-inline">
+        <div class="form-group">
+            <div>
+                <input type="file" class="form-control-file" id="uploadfile">
+            </div>
         </div>
-    </div>
+        <div class="form-group">
+                 <button id="uploadbtn" class="btn btn-primary"  type="button" onclick="dealup()"> 上传</button>
+        </div>
+    </form>
+    <script type="text/javascript" src="../templates/crypto-js/crypto-js.js"></script>
+    <script>
+        const chunkSize = 10*1024*1024;
+        const filesurl = "/uploadfilefiles/";
+        const chunksurl = "/uploadfilechunks/";
+        const username = sessionStorage.getItem("username");
+        function dealup() {
+            var files = document.getElementById("uploadfile").files;
+            if(!files || !files.length) {
+                alert("请先选择要上传的文件！")
+            }else{
+                var file = files[0];
+                var chunks = Math.ceil(file.size/chunkSize);
+                var start = 0,end = 0;
+                var filder = new Array(chunks);
+                //元信息文件的处理上传
+                var cellinfo = {
+                    username: username,
+                    _id: null,
+                    flename: file.name,
+                    length: file.size,
+                    chunkSize: chunkSize,
+                    uploadDate: (new Date()).getTime(),
+                };
+                getMD5(file,function (summary) {
+                    cellinfo._id = summary;
+                    console.log(cellinfo);
+                    //元文件信息上传
+                    uploading("files",cellinfo,filesurl);
+                     //chunks的切割上传
+                    for(let curindex = 0;curindex < chunks;curindex++) {
+                        let tempcell = {
+                            data: null,
+                            n: 0,
+                            file_id: summary,
+                            username: username,
+                            length: 0
+                        };
+                        if(file.size-start <= chunkSize) {
+                            end = file.size;
+                        }else {
+                            end = start + chunkSize;
+                        }
+                        tempcell.length = end - start;
+                        filder[curindex] = new FileReader();
+                        filder[curindex].readAsBinaryString(file.slice(start,end));
+                        filder[curindex].onload = function() {
+                            tempcell.n = curindex;
+                            tempcell.data = filder[curindex].result;
+                            console.log(tempcell);
+                            //chunk块上传
+                            uploading("chunks",tempcell,chunksurl);
+                        }
+                        start = end;
+                    }
+                })
+            }
+        }
+        //xhr上传fileinfo和chunk块
+        function uploading(type,opts,serverurl) {
+            var formdata = new  FormData();
+            formdata.append(type,JSON.stringify(opts));
+            $.ajax({
+                type: 'post',
+                url: serverurl,
+                data: formdata,
+                cache : false,
+                processData : false, // 不处理发送的数据，因为data值是Formdata对象，不需要对数据做处理
+                contentType : false, // 不设置Content-type请求头
+                success: function (data,success) {
+                    console.log(data);
+                    console.log(success);
+                },
+                error: function (err) {
+                    alert("网络错误");
+                }
+            })
+        }
+        //对传入的文件生成md5摘要
+        function  getMD5(file,callback) {
+            var filder = new FileReader();
+            filder.readAsText(file);
+            filder.onload = function () {
+                var summary =  CryptoJS.MD5(filder.result);
+                var hash = summary.words.join("");
+                callback&&callback(hash);
+            }
+        }
+    </script>
 </body>
 </html>

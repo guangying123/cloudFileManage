@@ -29,7 +29,8 @@ urlpatterns = [
     url(r'login/',view.userlogin),  #usercheck and longin
     url(r'regist/',view.regist), #regist
     url(r'uploadfilepage/',view.uploadfilepage),
-    url(r'uploadfile/',view.uploadfile)
+    url(r'uploadfilefiles/',view.uploadfilefiles),
+    url(r'uploadfilechunks/',view.uploadfilechunks)
 ]
 
 #static resources config
