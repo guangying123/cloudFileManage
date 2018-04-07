@@ -30,7 +30,10 @@ urlpatterns = [
     url(r'regist/',view.regist), #regist
     url(r'uploadfilepage/',view.uploadfilepage),
     url(r'uploadfilefiles/',view.uploadfilefiles),
-    url(r'uploadfilechunks/',view.uploadfilechunks)
+    url(r'uploadfilechunks/',view.uploadfilechunks),
+    url(r'historyfiles/', view.historyfiles),
+    url(r'downloadfile/', view.downloadfile),
+    url(r'downloadchunk/', view.downloadchunk)
 ]
 
 #static resources config

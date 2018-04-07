@@ -25,13 +25,28 @@
                  <button id="uploadbtn" class="btn btn-primary"  type="button" onclick="dealup()"> 上传</button>
         </div>
     </form>
+    <div id="history">
+    </div>
+    <div id="download">
+        <input type="text" name="downloadfile" id="downloadfile"/>
+        <button type="button" onclick="dodownload()">下载</button>
+    </div>
     <script type="text/javascript" src="../templates/crypto-js/crypto-js.js"></script>
     <script>
-        const chunkSize = 10*1024*1024;
+        const chunkSize = 1*1024*1024;
         const filesurl = "/uploadfilefiles/";
         const chunksurl = "/uploadfilechunks/";
+        const historyurl = '/historyfiles/';
+        const downloadurl = "/downloadfile/";
+        const downloadchunk = '/downloadchunk/';
         const username = sessionStorage.getItem("username");
+        historyfiles({"username": username}); // 请求已上传的文件
+        if(!username) {
+            alert("请您先登录系统!");
+            window.location.href="/home/";
+        }
         function dealup() {
+            console.log("click here")
             var files = document.getElementById("uploadfile").files;
             if(!files || !files.length) {
                 alert("请先选择要上传的文件！")
@@ -44,47 +59,70 @@
                 var cellinfo = {
                     username: username,
                     _id: null,
-                    flename: file.name,
+                    filename: file.name,
                     length: file.size,
                     chunkSize: chunkSize,
                     uploadDate: (new Date()).getTime(),
                 };
+                console.log("total chunks:  "+chunks)
                 getMD5(file,function (summary) {
                     cellinfo._id = summary;
+                    console.log("元信息数组")
                     console.log(cellinfo);
-                    //元文件信息上传
-                    uploading("files",cellinfo,filesurl);
-                     //chunks的切割上传
-                    for(let curindex = 0;curindex < chunks;curindex++) {
-                        let tempcell = {
-                            data: null,
-                            n: 0,
-                            file_id: summary,
-                            username: username,
-                            length: 0
-                        };
-                        if(file.size-start <= chunkSize) {
-                            end = file.size;
-                        }else {
-                            end = start + chunkSize;
+                    //元文件信息上传,（含断点续传的元文件信息的获取）
+                    uploading("files",cellinfo,filesurl,function (data) {
+                        alreadychunks = data.Uploaded;
+                        console.log("已上传的chunks数组")
+                        console.log(alreadychunks);
+                             //chunks的切割上传
+                        for(let curindex = 0;curindex < chunks;curindex++) {
+                            if(file.size-start <= chunkSize) {
+                                end = file.size;
+                            }else {
+                                end = start + chunkSize;
+                            }
+                            //仅上传未上传的部分
+                            if(!isinArray(alreadychunks,curindex)) {
+                                let tempcell = {
+                                    data: null,
+                                    n: 0,
+                                    file_id: summary,
+                                    username: username,
+                                    length: 0
+                                };
+                                tempcell.length = end - start;
+                                filder[curindex] = new FileReader();
+                                filder[curindex].readAsDataURL(file.slice(start, end));
+
+                                filder[curindex].onload = function () {
+                                    tempcell.n = curindex;
+                                    tempcell.data = filder[curindex].result;
+                                    console.log(tempcell)
+                                    //chunk块上传
+                                    uploading("chunks", tempcell, chunksurl);
+                                }
+                            }
+                            start = end;
                         }
-                        tempcell.length = end - start;
-                        filder[curindex] = new FileReader();
-                        filder[curindex].readAsBinaryString(file.slice(start,end));
-                        filder[curindex].onload = function() {
-                            tempcell.n = curindex;
-                            tempcell.data = filder[curindex].result;
-                            console.log(tempcell);
-                            //chunk块上传
-                            uploading("chunks",tempcell,chunksurl);
-                        }
-                        start = end;
-                    }
+                    });
                 })
             }
         }
+        // JS utf-8编码
+        function str2utf8(str) {
+            return eval('\''+encodeURI(str).replace(/%/gm, '\\x')+'\'');
+        }
+        function isinArray(arr,ele) {
+           let len = arr.length;
+           for(let i = 0;i < len;i++) {
+               if(arr[i] == ele) {
+                   return true;
+               }
+           }
+           return false;
+        }
         //xhr上传fileinfo和chunk块
-        function uploading(type,opts,serverurl) {
+        function uploading(type,opts,serverurl,callback) {
             var formdata = new  FormData();
             formdata.append(type,JSON.stringify(opts));
             $.ajax({
@@ -95,23 +133,104 @@
                 processData : false, // 不处理发送的数据，因为data值是Formdata对象，不需要对数据做处理
                 contentType : false, // 不设置Content-type请求头
                 success: function (data,success) {
-                    console.log(data);
-                    console.log(success);
+                    callback&&callback(JSON.parse(data));
                 },
                 error: function (err) {
                     alert("网络错误");
                 }
             })
         }
-        //对传入的文件生成md5摘要
+        //对传入的文件根据文件名和最近修改时间生成md5摘要
+        // (ps: 根据文件名和最近修改时间很大程度上可以唯一确定文件，除非同一时间下，
+        // 两人在不同的设备上对相同文件名的文件进行了编辑才可能出现，文件名相同，最近修改
+        // 时间也相同的两个文件内容不同的情况)
         function  getMD5(file,callback) {
-            var filder = new FileReader();
-            filder.readAsText(file);
-            filder.onload = function () {
-                var summary =  CryptoJS.MD5(filder.result);
-                var hash = summary.words.join("");
-                callback&&callback(hash);
+            // 采用文件名和最近修改时间标识文件
+            if(file.size > chunkSize) {
+                 var fileflag =  file.name + ""+ (file.lastModifiedDate).getTime();
+                 callback&&callback(fileflag);
+            }else {
+                 //采用md5对文件内容取hash来唯一标识文件.
+                var filder = new FileReader();
+                filder.readAsText(file);
+                filder.onload = function () {
+                    var summary =  CryptoJS.MD5(file.name+filder.result);
+                    var hash = summary.words.join("");
+                    callback&&callback(hash);
+                }
             }
+        }
+        // 已上传文件接口
+        function  historyfiles(username) {
+            $.ajax({
+                type: 'GET',
+                data: username,
+                url: historyurl,
+                success: function (data,status) {
+                    data = JSON.parse(data);
+                    document.querySelector("#history").innerHTML = data.join("||||");
+                   console.log(data);
+                },
+                error: function (err) {
+                    console.log(err);
+                    alert("获取历史文件失败，请检查网络是否连接！")
+                }
+            })
+        }
+        //文件下载函数
+        function  dodownload() {
+            var downloadfile = document.getElementById("downloadfile").value;
+            var filename = {"filename": downloadfile,"username": username};
+            console.log(downloadfile);
+            $.ajax({
+                url: downloadurl,
+                data: filename,
+                type: 'POST',
+                success: function (data,success) {
+                    data = JSON.parse(data);
+                    var chunks_n = Math.ceil(data.length/data.chunkSize);
+                    var file_id = data._id;
+                    var promisearr = new Array();
+                    for(let i = 0;i < chunks_n;i++) {
+                        promisearr.push(chunkdownload(file_id,i));
+                    }
+                    Promise.all(promisearr).then((values) => {
+                        console.log(values);
+                        downloadwithaTag(values,downloadfile);
+                    }).catch(err=>{
+                        console.log("文件下载失败")
+                    })
+                },
+                error: function (err) {
+                    console.log(err);
+                    alert("网络错误");
+                }
+            })
+        }
+        // 下载chunk块
+        function chunkdownload(file_id,n) {
+            var mydata = {"username": username,"file_id": file_id,"n": n};
+            return new Promise(function (resolve,reject) {
+                $.ajax({
+                    url: downloadchunk,
+                    data: mydata,
+                    type: 'POST',
+                    success: function (data,success) {
+                        resolve(data);
+                    },
+                    error: function (err) {
+                        reject(err)
+                    }
+                })
+            });
+        }
+        // 合并chunk块，利用a标签download属性进行下载
+        function  downloadwithaTag(values,filename) {
+            var blob = new Blob(values);
+            var aTag = document.createElement("a");
+            aTag.setAttribute("download",filename)
+            aTag.href = URL.createObjectURL(blob);
+            aTag.click();
         }
     </script>
 </body>

@@ -64,8 +64,29 @@ def uploadfilefiles(request):
     fileinfo = json.loads(request.POST['files'])
     client = pymongo.MongoClient('localhost', 27017)
     db = client.cloudfiledb
-    db[fileinfo['username']+"fileinfo"].insert(fileinfo);
-    return HttpResponse(fileinfo['username'])
+    filename = fileinfo["filename"]
+    md5 = fileinfo["_id"]
+    try:
+        resu =  db[fileinfo['username'] + "fileinfo"].find_one({"filename": filename})
+        if resu is None:
+            db[fileinfo['username'] + "fileinfo"].insert(fileinfo)
+            return HttpResponse(json.dumps({"Uploaded": []}))
+        elif resu["_id"] == md5:
+            final_n = []
+            resu_n =  db[fileinfo['username'] + "filedata"].find({"file_id": md5},{"n": 1})
+            for ele in resu_n:
+                global final_n
+                final_n.append(ele["n"])
+            return HttpResponse(json.dumps({"Uploaded":final_n}))
+        else:
+            db[fileinfo['username'] + "fileinfo"].remove({"filename": filename})
+            db[fileinfo['username'] + "fileinfo"].insert(fileinfo)
+            db[fileinfo['username'] + "filedata"].remove({"file_id": md5})
+            return HttpResponse(json.dumps({"Uploaded": []}))
+    except Exception as e:
+        return HttpResponse(e)
+
+
 
 @csrf_exempt
 def uploadfilechunks(request):
@@ -76,6 +97,47 @@ def uploadfilechunks(request):
     db = client.cloudfiledb
     db[chunks['username'] + "filedata"].insert(chunks);
     return HttpResponse(chunks['username'])
+
+def historyfiles(request):
+    username = request.GET['username']
+    client = pymongo.MongoClient('localhost', 27017)
+    db = client.cloudfiledb
+    resu = db[username + "fileinfo"].find()
+    historyfilelist = []
+    try:
+        for ele in resu:
+            global historyfilelist
+            historyfilelist.append(ele["filename"])
+        return HttpResponse(json.dumps(historyfilelist))
+    except Exception as e:
+        return HttpResponse(e)
+
+@csrf_exempt
+def downloadfile(request):
+    filename = request.POST['filename']
+    username = request.POST['username']
+    client = pymongo.MongoClient('localhost', 27017)
+    db = client.cloudfiledb
+    resu = db[username + "fileinfo"].find_one({"filename": filename})
+    return HttpResponse(json.dumps(resu))
+
+@csrf_exempt
+def downloadchunk(request):
+    username = request.POST['username']
+    file_id = request.POST['file_id']
+    n = request.POST['n']
+    client = pymongo.MongoClient('localhost', 27017)
+    db = client.cloudfiledb
+    try:
+        resu = db[username + "filedata"].find_one({"file_id": file_id,"n": int(n)})
+        return HttpResponse(resu["data"])
+    except Exception as e:
+        return HttpResponse(e)
+
+
+
+
+
 
 
 
