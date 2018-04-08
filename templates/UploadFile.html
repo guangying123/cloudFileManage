@@ -12,25 +12,182 @@
             padding: 0;
             margin: 0;
         }
+        .nicknamebar {
+            height: 50px;
+            line-height: 50px;
+            background: #24292e;
+            padding-right: 30px;
+        }
+        #nickname {
+            color: rgba(255,255,255,0.75);
+            display: inline-block;
+            float: right;
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .mainbody {
+            background-image: linear-gradient(180deg, rgba(255,255,255,0) 60%, #fff),linear-gradient(70deg, #dbedff 32%, #ebfff0);
+            display: flex;
+            display: -webkit-flex;
+            padding: 8% 10%;
+            overflow: hidden;
+        }
+        .upmodel {
+            flex: 1;
+            margin-right: 200px;
+            display: flex;
+            display: -webkit-flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .drag {
+            background: #ffffff;
+            height: 400px;
+            margin-top: 40px;
+            width: 100%;
+            border-radius: 5px;
+            position: relative;
+        }
+        .downmodel {
+            width: 300px;
+        }
+        #history {
+            box-sizing: border-box;
+            border: 1px solid lightgray;
+            border-radius: 3px;
+            background: #ffffff;
+        }
+        .historyitem {
+            color: #0366d6;
+            line-height: 30px;
+            padding: 5px 10px;
+            border: 1px solid lightgray;
+            cursor: pointer;
+        }
+        .fileion {
+            position: relative;
+            width: 12px;
+            height: 10px;
+            background: #a4a4a4;
+            display: inline-block;
+        }
+        .bigfileion {
+            position: relative;
+            width: 80px;
+            height: 60px;
+            background: #a4a4a4;
+            display: inline-block;
+        }
+        .fileion:before {
+            content: "";
+            position: absolute;
+            width: 6px;
+            height: 9px;
+            background: #a4a4a4;
+            top: -8px;
+        }
+        .bigfileion:before {
+            content: "";
+            position: absolute;
+            width: 50px;
+            height: 34px;
+            background: #a4a4a4;
+            top: -32px;
+        }
+        .fileion:after {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 3px solid #a4a4a4;
+            border-bottom: 3px solid #a4a4a4;
+            border-top: 3px solid transparent;
+            border-right: 3px solid transparent;
+            right: -1px;
+            top: -8px;
+        }
+        .bigfileion:after {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 15px solid #a4a4a4;
+            border-bottom: 15px solid #a4a4a4;
+            border-top: 15px solid transparent;
+            border-right: 15px solid transparent;
+            right: -1px;
+            top: -31px;
+        }
+        .filenamespan {
+            display: inline-block;
+            max-width: 220px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            vertical-align: sub;
+            padding-left: 10px;
+        }
+        #filecount {
+            background-color: #a0a0a0;
+            border-radius: 50%;
+            color: #fff;
+            display: inline-block;
+            margin-left: 4px;
+        }
+        .filereport {
+                padding: 5px 20px;
+        }
+        .dragnotice {
+            position: absolute;
+            margin-top: 40%;
+            margin-left: 50%;
+            transform: translate(-50%,-50%);
+        }
+        .dragnotice p {
+            position: absolute;
+            margin-top: 90%;
+            width: 100px;
+        }
     </style>
 </head>
 <body>
-    <form class="form-inline">
-        <div class="form-group">
+<div>
+    <div class="nicknamebar">
+        <span id="nickname"></span>
+    </div>
+    <div class="mainbody">
+        <div class="upmodel">
             <div>
-                <input type="file" class="form-control-file" id="uploadfile">
+                  <form class="form-inline">
+                    <div class="form-group">
+                        <div>
+                            <input type="file" class="form-control-file" id="uploadfile">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                             <button id="uploadbtn" class="btn btn-primary"  type="button" onclick="choosefile()"> 上传</button>
+                    </div>
+                </form>
+            </div>
+            <div class="drag" id="dragplain" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <div class="dragnotice">
+                    <p>拖拽上传文件</p>
+                    <div class="bigfileion"></div>
+                </div>
+
             </div>
         </div>
-        <div class="form-group">
-                 <button id="uploadbtn" class="btn btn-primary"  type="button" onclick="dealup()"> 上传</button>
+        <div class="downmodel">
+            <div id="history" onclick="uploadbar(event)">
+                <div class="filenamespan filereport">
+                    文件仓库<span id="filecount"></span>
+                </div>
+            </div>
         </div>
-    </form>
-    <div id="history">
     </div>
-    <div id="download">
-        <input type="text" name="downloadfile" id="downloadfile"/>
-        <button type="button" onclick="dodownload()">下载</button>
-    </div>
+</div>
     <script type="text/javascript" src="../templates/crypto-js/crypto-js.js"></script>
     <script>
         const chunkSize = 1*1024*1024;
@@ -40,18 +197,47 @@
         const downloadurl = "/downloadfile/";
         const downloadchunk = '/downloadchunk/';
         const username = sessionStorage.getItem("username");
+        document.getElementById("nickname").innerHTML = username;
         historyfiles({"username": username}); // 请求已上传的文件
         if(!username) {
             alert("请您先登录系统!");
             window.location.href="/home/";
         }
-        function dealup() {
-            console.log("click here")
+        function allowDrop(ev)
+        {
+            ev.preventDefault();
+        }
+        function drop(ev) {
+            ev.preventDefault();
+            var dt = ev.dataTransfer;
+            var file = dt.files[0];
+            if(file.type) {
+                dealup(file);
+            }else {
+                try {
+                     var fileReader = new FileReader();
+                     fileReader.readAsDataURL(file.slice(0, 3));
+                      fileReader.addEventListener('load', function (e) {
+                        dealup(file);
+                    }, false);
+                    fileReader.addEventListener('error', function (e) {
+                        alert("不支持文件夹上传，请选择要上传的文件!")
+                    }, false);
+                }catch (e) {
+                    alert("不支持文件夹上传，请选择要上传的文件!")
+                }
+            }
+        }
+        function  choosefile() {
             var files = document.getElementById("uploadfile").files;
             if(!files || !files.length) {
                 alert("请先选择要上传的文件！")
             }else{
                 var file = files[0];
+                dealup(file);
+            }
+        }
+        function dealup(file) {
                 var chunks = Math.ceil(file.size/chunkSize);
                 var start = 0,end = 0;
                 var filder = new Array(chunks);
@@ -75,6 +261,7 @@
                         console.log("已上传的chunks数组")
                         console.log(alreadychunks);
                              //chunks的切割上传
+                        var chunksarrpromise =  new Array();
                         for(let curindex = 0;curindex < chunks;curindex++) {
                             if(file.size-start <= chunkSize) {
                                 end = file.size;
@@ -92,21 +279,27 @@
                                 };
                                 tempcell.length = end - start;
                                 filder[curindex] = new FileReader();
-                                filder[curindex].readAsDataURL(file.slice(start, end));
+                                filder[curindex].readAsText(file.slice(start, end),"gb2312");
 
                                 filder[curindex].onload = function () {
                                     tempcell.n = curindex;
                                     tempcell.data = filder[curindex].result;
                                     console.log(tempcell)
                                     //chunk块上传
-                                    uploading("chunks", tempcell, chunksurl);
+                                   chunksarrpromise.push(uploading("chunks", tempcell, chunksurl));
                                 }
                             }
                             start = end;
                         }
+                        console.log(chunksarrpromise);
+                        Promise.all(chunksarrpromise).then((values) => {
+                            console.log("Promise %%%%  all")
+                            console.log(values);
+                        }).catch(err => {
+                            console.log(err);
+                        })
                     });
                 })
-            }
         }
         // JS utf-8编码
         function str2utf8(str) {
@@ -123,21 +316,27 @@
         }
         //xhr上传fileinfo和chunk块
         function uploading(type,opts,serverurl,callback) {
-            var formdata = new  FormData();
-            formdata.append(type,JSON.stringify(opts));
-            $.ajax({
-                type: 'post',
-                url: serverurl,
-                data: formdata,
-                cache : false,
-                processData : false, // 不处理发送的数据，因为data值是Formdata对象，不需要对数据做处理
-                contentType : false, // 不设置Content-type请求头
-                success: function (data,success) {
-                    callback&&callback(JSON.parse(data));
-                },
-                error: function (err) {
-                    alert("网络错误");
-                }
+            return new Promise(function (resolve,reject) {
+                var formdata = new  FormData();
+                formdata.append(type,JSON.stringify(opts));
+                $.ajax({
+                    type: 'post',
+                    url: serverurl,
+                    data: formdata,
+                    cache : false,
+                    processData : false, // 不处理发送的数据，因为data值是Formdata对象，不需要对数据做处理
+                    contentType : false, // 不设置Content-type请求头
+                    success: function (data,success) {
+                        callback&&callback(JSON.parse(data));
+                        console.log("look here")
+                        console.log(data);
+                        resolve(data)
+                    },
+                    error: function (err) {
+                        reject(err);
+                        alert("网络错误");
+                    }
+                })
             })
         }
         //对传入的文件根据文件名和最近修改时间生成md5摘要
@@ -168,7 +367,24 @@
                 url: historyurl,
                 success: function (data,status) {
                     data = JSON.parse(data);
-                    document.querySelector("#history").innerHTML = data.join("||||");
+                    data.reverse();
+                    let len = data.length;
+                    document.getElementById("filecount").innerHTML= len;
+                    var historyDOM = document.querySelector("#history");
+                    for(let i =0;i < len;i++) {
+                        var obj = document.createElement("div");
+                        obj.setAttribute("class","historyitem");
+                        var fileion = document.createElement("div");
+                        fileion.setAttribute("class","fileion");
+                        fileion.setAttribute("id",'1'+data[i])
+                        var span = document.createElement("span");
+                        span.innerHTML = data[i];
+                        span.setAttribute("class","filenamespan");
+                        span.setAttribute("id",'2'+data[i])
+                        obj.appendChild(fileion);
+                        obj.appendChild(span);
+                        historyDOM.appendChild(obj);
+                    }
                    console.log(data);
                 },
                 error: function (err) {
@@ -177,9 +393,16 @@
                 }
             })
         }
+        function  uploadbar(ev) {
+            var filename = ev.target.id.substring(1);
+            if(filename) {
+                dodownload(filename);
+            }else {
+                alert("文件无效!")
+            }
+        }
         //文件下载函数
-        function  dodownload() {
-            var downloadfile = document.getElementById("downloadfile").value;
+        function  dodownload(downloadfile) {
             var filename = {"filename": downloadfile,"username": username};
             console.log(downloadfile);
             $.ajax({
