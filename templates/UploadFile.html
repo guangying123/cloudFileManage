@@ -52,6 +52,9 @@
         }
         .downmodel {
             width: 300px;
+            height: 460px;
+            overflow-y: scroll;
+            overflow-x: hidden;
         }
         #history {
             box-sizing: border-box;
@@ -176,7 +179,6 @@
                     <p>拖拽上传文件</p>
                     <div class="bigfileion"></div>
                 </div>
-
             </div>
         </div>
         <div class="downmodel">
@@ -291,13 +293,27 @@
                             }
                             start = end;
                         }
-                        console.log(chunksarrpromise);
-                        Promise.all(chunksarrpromise).then((values) => {
-                            console.log("Promise %%%%  all")
-                            console.log(values);
-                        }).catch(err => {
-                            console.log(err);
-                        })
+                        setTimeout(() => {
+                            Promise.all(chunksarrpromise).then((values) => {
+                                var history = document.getElementById("history");
+                                var obj = document.createElement("div");
+                                obj.setAttribute("class","historyitem");
+                                var fileion = document.createElement("div");
+                                fileion.setAttribute("class","fileion");
+                                fileion.setAttribute("id",'1'+file.name)
+                                var span = document.createElement("span");
+                                span.innerHTML = file.name;
+                                span.setAttribute("class","filenamespan");
+                                span.setAttribute("id",'2'+ file.name)
+                                obj.appendChild(fileion);
+                                obj.appendChild(span);
+                                history.insertBefore(obj,history.childNodes[2]);
+                                alert("文件上传成功!")
+                            }).catch(err => {
+                                console.log(err);
+                                alert("网络错误，上传失败!")
+                            })
+                            },500)
                     });
                 })
         }
@@ -328,8 +344,6 @@
                     contentType : false, // 不设置Content-type请求头
                     success: function (data,success) {
                         callback&&callback(JSON.parse(data));
-                        console.log("look here")
-                        console.log(data);
                         resolve(data)
                     },
                     error: function (err) {
