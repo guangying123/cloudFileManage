@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../templates/bootstrap.min.css"/>
     <script src="../templates/jquery-3.3.1.min.js"></script>
     <script src="../templates/bootstrap.min.js"></script>
+    <script src="../templates/sandbox_fileSystem.js"></script>
     <style>
         * {
             padding: 0;
@@ -252,6 +253,7 @@
                     chunkSize: chunkSize,
                     uploadDate: (new Date()).getTime(),
                 };
+                var fileflag = isimgorvideo(file.name);
                 console.log("total chunks:  "+chunks)
                 getMD5(file,function (summary) {
                     cellinfo._id = summary;
@@ -281,8 +283,11 @@
                                 };
                                 tempcell.length = end - start;
                                 filder[curindex] = new FileReader();
-                                filder[curindex].readAsText(file.slice(start, end),"gb2312");
-
+                                if(fileflag) {
+                                    filder[curindex].readAsDataURL(file.slice(start, end));
+                                }else {
+                                    filder[curindex].readAsText(file.slice(start, end),"gb2312");
+                                }
                                 filder[curindex].onload = function () {
                                     tempcell.n = curindex;
                                     tempcell.data = filder[curindex].result;
@@ -293,7 +298,7 @@
                             }
                             start = end;
                         }
-                        setTimeout(() => {
+                        setTimeout(function () {
                             Promise.all(chunksarrpromise).then((values) => {
                                 var history = document.getElementById("history");
                                 var obj = document.createElement("div");
@@ -427,16 +432,21 @@
                     data = JSON.parse(data);
                     var chunks_n = Math.ceil(data.length/data.chunkSize);
                     var file_id = data._id;
-                    var promisearr = new Array();
-                    for(let i = 0;i < chunks_n;i++) {
-                        promisearr.push(chunkdownload(file_id,i));
+                    var flag = 1; // flag等于1为传统的a标签文件下载   否则为断点续传文件下载
+                    if(flag == 1) {
+                        var promisearr = new Array();
+                        for (let i = 0; i < chunks_n; i++) {
+                            promisearr.push(chunkdownload(file_id, i));
+                        }
+                        Promise.all(promisearr).then((values) => {
+                            console.log(values);
+                            downloadwithaTag(values, downloadfile);
+                        }).catch(err => {
+                            console.log("文件下载失败")
+                        })
+                    }else {
+                        sandbox_download(downloadfile);
                     }
-                    Promise.all(promisearr).then((values) => {
-                        console.log(values);
-                        downloadwithaTag(values,downloadfile);
-                    }).catch(err=>{
-                        console.log("文件下载失败")
-                    })
                 },
                 error: function (err) {
                     console.log(err);
@@ -463,11 +473,45 @@
         }
         // 合并chunk块，利用a标签download属性进行下载
         function  downloadwithaTag(values,filename) {
-            var blob = new Blob(values);
-            var aTag = document.createElement("a");
-            aTag.setAttribute("download",filename)
-            aTag.href = URL.createObjectURL(blob);
-            aTag.click();
+             var flag = isimgorvideo(filename);
+             console.log(flag);
+             if(!flag) {
+                 var blob = new Blob(values);
+             }
+             var aTag = document.createElement("a");
+            aTag.setAttribute("download",filename);
+            setTimeout(() => {
+                var url = "";
+                if(flag) {
+                     url = values.join("");
+                }else {
+                     url = URL.createObjectURL(blob);
+                }
+                aTag.href = url;
+                aTag.click();
+                if(!flag){
+                    URL.revokeObjectURL(url);
+                }
+            },500)
+        }
+        function  isimgorvideo(filename) {
+            console.log(filename);
+            var temname = filename.split(".");
+            var exten_name = temname[temname.length - 1];
+             exten_name = exten_name.toLowerCase();
+            // 为视频文件
+            if(exten_name == "mp4" || exten_name == "rmvb" || exten_name == "avi" || exten_name == "ts") {
+                return true;
+            }
+            // 为图片文件
+            if(exten_name == "bmp" || exten_name == "png" || exten_name == "gif" || exten_name == "jpg" || exten_name == "jpeg" || exten_name=="pdf" || exten_name =="docx"){
+                return true;
+            }
+            // 为压缩文件
+            if(exten_name == "zip" || exten_name == "rar" || exten_name == "tar" || exten_name == "gzip" || exten_name == "jar" ) {
+                return true;
+            }
+            return false;
         }
     </script>
 </body>

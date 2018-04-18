@@ -134,6 +134,9 @@ def downloadchunk(request):
     except Exception as e:
         return HttpResponse(e)
 
+def ztree(request):
+    return render(request, 'Mytest_jqtree.html');
+
 
 
 

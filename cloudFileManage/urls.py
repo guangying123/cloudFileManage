@@ -33,7 +33,8 @@ urlpatterns = [
     url(r'uploadfilechunks/',view.uploadfilechunks),
     url(r'historyfiles/', view.historyfiles),
     url(r'downloadfile/', view.downloadfile),
-    url(r'downloadchunk/', view.downloadchunk)
+    url(r'downloadchunk/', view.downloadchunk),
+    url(r'ztree/', view.ztree)
 ]
 
 #static resources config
