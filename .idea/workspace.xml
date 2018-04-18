@@ -2,23 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="50ce40dc-2325-4ae9-874a-cfe55e4cac3d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/zTree/js/ztree.3.5.26.zip" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/Mytest_jqtree.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/sandbox_fileSystem.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/zTree/js/jquery-1.4.4.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/zTree/js/jquery.ztree.all.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/zTree/js/jquery.ztree.all.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/zTree/js/jquery.ztree.core.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/zTree/js/jquery.ztree.core.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/zTree/js/jquery.ztree.excheck.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/zTree/js/jquery.ztree.excheck.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/zTree/js/jquery.ztree.exedit.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/zTree/js/jquery.ztree.exedit.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/zTree/js/jquery.ztree.exhide.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/zTree/js/jquery.ztree.exhide.min.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cloudFileManage/urls.py" afterPath="$PROJECT_DIR$/cloudFileManage/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cloudFileManage/view.py" afterPath="$PROJECT_DIR$/cloudFileManage/view.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/Mytest_jqtree.html" afterPath="$PROJECT_DIR$/templates/Mytest_jqtree.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/UploadFile.html" afterPath="$PROJECT_DIR$/templates/UploadFile.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -90,9 +74,13 @@
       <file leaf-file-name="UploadFile.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/UploadFile.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="154">
-              <caret line="381" column="25" lean-forward="false" selection-start-line="381" selection-start-column="18" selection-end-line="381" selection-end-column="25" />
-              <folding />
+            <state relative-caret-position="241">
+              <caret line="59" column="18" lean-forward="true" selection-start-line="59" selection-start-column="18" selection-end-line="59" selection-end-column="18" />
+              <folding>
+                <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#ul#0;n#td#0;n#tr#0;n#table#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="e#19044#19608#0#HTML" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -100,9 +88,10 @@
       <file leaf-file-name="Mytest_jqtree.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/Mytest_jqtree.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="117">
-              <caret line="34" column="16" lean-forward="true" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="16" />
+            <state relative-caret-position="171">
+              <caret line="35" column="28" lean-forward="true" selection-start-line="35" selection-start-column="8" selection-end-line="35" selection-end-column="28" />
               <folding>
+                <element signature="e#396#724#0#HTML" expanded="false" />
                 <element signature="n#style#0;n#TD#0;n#TR#0;n#TABLE#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#ul#0;n#TD#0;n#TR#0;n#TABLE#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
@@ -123,9 +112,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>setTime</find>
-      <find>downloadwithaTag</find>
-      <find>uploadbar</find>
       <find>filename</find>
       <find>sand</find>
       <find>请先</find>
@@ -153,6 +139,9 @@
       <find>jquery</find>
       <find>cry</find>
       <find>history</find>
+      <find>znod</find>
+      <find>tree</find>
+      <find>padding</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -165,10 +154,10 @@
         <option value="$PROJECT_DIR$/cloudFileManage/settings.py" />
         <option value="$PROJECT_DIR$/templates/Home.html" />
         <option value="$PROJECT_DIR$/templates/sandbox_fileSystem.js" />
-        <option value="$PROJECT_DIR$/templates/UploadFile.html" />
         <option value="$PROJECT_DIR$/cloudFileManage/urls.py" />
         <option value="$PROJECT_DIR$/cloudFileManage/view.py" />
         <option value="$PROJECT_DIR$/templates/Mytest_jqtree.html" />
+        <option value="$PROJECT_DIR$/templates/UploadFile.html" />
       </list>
     </option>
   </component>
@@ -322,7 +311,7 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295082" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10655738" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2409836" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -373,7 +362,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="456">
           <caret line="24" column="31" lean-forward="false" selection-start-line="24" selection-start-column="31" selection-end-line="24" selection-end-column="31" />
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#ul#0;n#td#0;n#tr#0;n#table#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="e#19044#19608#0#HTML" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -420,7 +413,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="456">
           <caret line="24" column="31" lean-forward="false" selection-start-line="24" selection-start-column="31" selection-end-line="24" selection-end-column="31" />
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#ul#0;n#td#0;n#tr#0;n#table#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="e#19044#19608#0#HTML" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -729,9 +726,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/Mytest_jqtree.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="117">
-          <caret line="34" column="16" lean-forward="true" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="16" />
+        <state relative-caret-position="171">
+          <caret line="35" column="28" lean-forward="true" selection-start-line="35" selection-start-column="8" selection-end-line="35" selection-end-column="28" />
           <folding>
+            <element signature="e#396#724#0#HTML" expanded="false" />
             <element signature="n#style#0;n#TD#0;n#TR#0;n#TABLE#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#ul#0;n#TD#0;n#TR#0;n#TABLE#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
@@ -740,9 +738,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/UploadFile.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="381" column="25" lean-forward="false" selection-start-line="381" selection-start-column="18" selection-end-line="381" selection-end-column="25" />
-          <folding />
+        <state relative-caret-position="241">
+          <caret line="59" column="18" lean-forward="true" selection-start-line="59" selection-start-column="18" selection-end-line="59" selection-end-column="18" />
+          <folding>
+            <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#ul#0;n#td#0;n#tr#0;n#table#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="e#19044#19608#0#HTML" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

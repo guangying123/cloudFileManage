@@ -8,6 +8,8 @@
     <script src="../templates/jquery-3.3.1.min.js"></script>
     <script src="../templates/bootstrap.min.js"></script>
     <script src="../templates/sandbox_fileSystem.js"></script>
+    <link rel="stylesheet" href="../templates/zTree/css/zTreeStyle/zTreeStyle.css">
+    <script type="text/javascript" src="../templates/zTree/js/jquery.ztree.core.js"></script>
     <style>
         * {
             padding: 0;
@@ -32,7 +34,7 @@
             background-image: linear-gradient(180deg, rgba(255,255,255,0) 60%, #fff),linear-gradient(70deg, #dbedff 32%, #ebfff0);
             display: flex;
             display: -webkit-flex;
-            padding: 8% 10%;
+            padding: 4% 10%;
             overflow: hidden;
         }
         .upmodel {
@@ -45,17 +47,15 @@
         }
         .drag {
             background: #ffffff;
-            height: 400px;
+            height: 350px;
             margin-top: 40px;
             width: 100%;
             border-radius: 5px;
             position: relative;
         }
         .downmodel {
+            padding-top: 6%;
             width: 300px;
-            height: 460px;
-            overflow-y: scroll;
-            overflow-x: hidden;
         }
         #history {
             box-sizing: border-box;
@@ -183,11 +183,18 @@
             </div>
         </div>
         <div class="downmodel">
-            <div id="history" onclick="uploadbar(event)">
-                <div class="filenamespan filereport">
-                    文件仓库<span id="filecount"></span>
-                </div>
-            </div>
+{#            <div id="history" onclick="uploadbar(event)">#}
+{#                <div class="filenamespan filereport">#}
+{#                    文件仓库<span id="filecount"></span>#}
+{#                </div>#}
+{#            </div>#}
+            <table border=0 height=400px align=left>
+                <tr>
+                    <td width=260px align=left valign=top style="border-left: #999999 1px dashed">
+                        <ul id="tree" class="ztree" style="width:260px; overflow:auto;"></ul>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>
@@ -201,6 +208,8 @@
         const downloadchunk = '/downloadchunk/';
         const username = sessionStorage.getItem("username");
         document.getElementById("nickname").innerHTML = username;
+        // 文件目录树的结点
+        var zNodes = [];
         historyfiles({"username": username}); // 请求已上传的文件
         if(!username) {
             alert("请您先登录系统!");
@@ -387,23 +396,8 @@
                 success: function (data,status) {
                     data = JSON.parse(data);
                     data.reverse();
-                    let len = data.length;
-                    document.getElementById("filecount").innerHTML= len;
-                    var historyDOM = document.querySelector("#history");
-                    for(let i =0;i < len;i++) {
-                        var obj = document.createElement("div");
-                        obj.setAttribute("class","historyitem");
-                        var fileion = document.createElement("div");
-                        fileion.setAttribute("class","fileion");
-                        fileion.setAttribute("id",'1'+data[i])
-                        var span = document.createElement("span");
-                        span.innerHTML = data[i];
-                        span.setAttribute("class","filenamespan");
-                        span.setAttribute("id",'2'+data[i])
-                        obj.appendChild(fileion);
-                        obj.appendChild(span);
-                        historyDOM.appendChild(obj);
-                    }
+                    zNodes = zNodesmap(data);
+                    file_tree(zNodes);
                    console.log(data);
                 },
                 error: function (err) {
@@ -512,6 +506,50 @@
                 return true;
             }
             return false;
+        }
+        // 文件目录树部分
+        // 目录树配置设置
+        var setting = {
+            view: {
+                dblClickExpand: false,
+                showLine: true,
+                selectedMulti: false
+            },
+            data: {
+                simpleData: {
+                    enable:true,
+                    idKey: "id",
+                    pIdKey: "pId",
+                    rootPId: ""
+                }
+            },
+            callback: {
+                beforeClick: function(treeId, treeNode) {
+                    console.log(treeId)
+                    console.log(treeNode);
+                }
+            }
+	    }
+	    // 获取到的数据到zNodes的映射
+        function  zNodesmap(rawdata) {
+            console.log(rawdata);
+            var result = [];
+            var k = 2;
+            result = rawdata.map(ele => {
+                let temp = {id: k , pId: 1, name: ele};
+                k++;
+                return temp;
+            });
+            result.unshift({id:1, pId:0, name:"文件仓库", open:true})
+            return result;
+        }
+	    // 文件目录的生成及刷新
+        function  file_tree(zNodes) {
+{#            $.fn.zTree.destroy("tree");#}
+            var t = $("#tree");
+            console.log(zNodes);
+            console.log(setting);
+		    t = $.fn.zTree.init(t, setting, zNodes);
         }
     </script>
 </body>

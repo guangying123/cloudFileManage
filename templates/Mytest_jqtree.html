@@ -99,11 +99,13 @@
 		{id:602, pId:6, name:"配合 checkbox 的隐藏", file:"exhide/checkbox"},
 		{id:603, pId:6, name:"配合 radio 的隐藏", file:"exhide/radio"}
 	];
-
-	$(document).ready(function(){
+	function showtable(){
 		var t = $("#tree");
 		t = $.fn.zTree.init(t, setting, zNodes);
-	});
+	}
+	function xh() {
+        $.fn.zTree.destroy("tree");
+    }
   </SCRIPT>
 <TABLE border=0 height=600px align=left>
 	<TR>
@@ -112,6 +114,8 @@
 		</TD>
 	</TR>
 </TABLE>
+<div onclick="showtable()">123dafdsalf</div>
+<div onclick="xh()">xiaohui</div>
 </BODY>
 </HTML>
 
