@@ -2,6 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="50ce40dc-2325-4ae9-874a-cfe55e4cac3d" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/MytestStream.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/StreamSaver.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/testblob.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cloudFileManage/urls.py" afterPath="$PROJECT_DIR$/cloudFileManage/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cloudFileManage/view.py" afterPath="$PROJECT_DIR$/cloudFileManage/view.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/Mytest_jqtree.html" afterPath="$PROJECT_DIR$/templates/Mytest_jqtree.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/UploadFile.html" afterPath="$PROJECT_DIR$/templates/UploadFile.html" />
     </list>
@@ -20,8 +26,8 @@
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cloudFileManage/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="250">
-              <caret line="36" column="15" lean-forward="false" selection-start-line="36" selection-start-column="10" selection-end-line="36" selection-end-column="15" />
+            <state relative-caret-position="266">
+              <caret line="42" column="35" lean-forward="true" selection-start-line="42" selection-start-column="35" selection-end-line="42" selection-end-column="35" />
               <folding>
                 <element signature="e#704#736#0" expanded="true" />
               </folding>
@@ -29,11 +35,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="view.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="view.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cloudFileManage/view.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="269">
-              <caret line="137" column="46" lean-forward="false" selection-start-line="137" selection-start-column="46" selection-end-line="137" selection-end-column="46" />
+            <state relative-caret-position="244">
+              <caret line="207" column="41" lean-forward="false" selection-start-line="207" selection-start-column="41" selection-end-line="207" selection-end-column="41" />
               <folding>
                 <element signature="e#22#58#0" expanded="true" />
               </folding>
@@ -41,59 +47,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="response.py" pinned="false" current-in-tab="false">
-        <entry file="file://G:/F：/Python/Lib/site-packages/django/http/response.py">
+      <file leaf-file-name="Home.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/Home.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4940">
-              <caret line="281" column="8" lean-forward="false" selection-start-line="281" selection-start-column="8" selection-end-line="281" selection-end-column="8" />
+            <state relative-caret-position="19">
+              <caret line="132" column="31" lean-forward="false" selection-start-line="132" selection-start-column="25" selection-end-line="132" selection-end-column="31" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="grid_file.py" pinned="false" current-in-tab="false">
-        <entry file="file://G:/F：/Python/Lib/site-packages/gridfs/grid_file.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="8949">
-              <caret line="488" column="25" lean-forward="false" selection-start-line="488" selection-start-column="25" selection-end-line="488" selection-end-column="25" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
-        <entry file="file://G:/F：/Python/Lib/site-packages/gridfs/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="532">
-              <caret line="38" column="50" lean-forward="false" selection-start-line="38" selection-start-column="50" selection-end-line="38" selection-end-column="50" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UploadFile.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="UploadFile.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/UploadFile.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="241">
-              <caret line="59" column="18" lean-forward="true" selection-start-line="59" selection-start-column="18" selection-end-line="59" selection-end-column="18" />
+            <state relative-caret-position="188">
+              <caret line="572" column="50" lean-forward="true" selection-start-line="572" selection-start-column="50" selection-end-line="572" selection-end-column="50" />
               <folding>
-                <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#ul#0;n#td#0;n#tr#0;n#table#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="e#19044#19608#0#HTML" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Mytest_jqtree.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/Mytest_jqtree.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="35" column="28" lean-forward="true" selection-start-line="35" selection-start-column="8" selection-end-line="35" selection-end-column="28" />
-              <folding>
-                <element signature="e#396#724#0#HTML" expanded="false" />
-                <element signature="n#style#0;n#TD#0;n#TR#0;n#TABLE#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#ul#0;n#TD#0;n#TR#0;n#TABLE#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -105,43 +75,43 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Script" />
-        <option value="HTML File" />
         <option value="JavaScript File" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>filename</find>
-      <find>sand</find>
-      <find>请先</find>
-      <find>errorHandler</find>
-      <find>2</find>
-      <find>flag</find>
-      <find>sandbox</find>
-      <find>readAS</find>
-      <find>createObjectUrl</find>
-      <find>文件下载失败</find>
-      <find>readASbin</find>
-      <find>readas</find>
-      <find>readAs</find>
-      <find>upload</find>
-      <find>上传</find>
-      <find>deal</find>
-      <find>getMD5</find>
-      <find>readAsd</find>
+      <find>fileflag</find>
+      <find>downloadwi</find>
+      <find>myarea</find>
+      <find>download</find>
+      <find>readAsDATA</find>
+      <find>downloadwithatag</find>
+      <find>downloadwith</find>
+      <find>upmodel</find>
+      <find>wjj</find>
       <find>isimgorvideo</find>
-      <find>alert</find>
-      <find>123</find>
-      <find>readASDataUrl</find>
-      <find>readAsDataURL</find>
+      <find>judg</find>
+      <find>show</find>
+      <find>downloadwithata</find>
+      <find>callback</find>
+      <find>tp</find>
+      <find>文件下载失败</find>
       <find>下载</find>
-      <find>jquery</find>
-      <find>cry</find>
-      <find>history</find>
-      <find>znod</find>
-      <find>tree</find>
-      <find>padding</find>
+      <find>tua</find>
+      <find>hidden</find>
+      <find>tpa</find>
+      <find>upload</find>
+      <find>wbdiv</find>
+      <find>预览效果</find>
+      <find>diva</find>
+      <find>qt</find>
+      <find>textarea</find>
+      <find>wb</find>
+      <find>import</find>
+      <find>StringIO</find>
+      <find>get</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -154,10 +124,12 @@
         <option value="$PROJECT_DIR$/cloudFileManage/settings.py" />
         <option value="$PROJECT_DIR$/templates/Home.html" />
         <option value="$PROJECT_DIR$/templates/sandbox_fileSystem.js" />
+        <option value="$PROJECT_DIR$/templates/Mytest_jqtree.html" />
+        <option value="$PROJECT_DIR$/templates/MytestStream.html" />
+        <option value="$PROJECT_DIR$/templates/testblob.html" />
+        <option value="$PROJECT_DIR$/templates/UploadFile.html" />
         <option value="$PROJECT_DIR$/cloudFileManage/urls.py" />
         <option value="$PROJECT_DIR$/cloudFileManage/view.py" />
-        <option value="$PROJECT_DIR$/templates/Mytest_jqtree.html" />
-        <option value="$PROJECT_DIR$/templates/UploadFile.html" />
       </list>
     </option>
   </component>
@@ -175,7 +147,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-7" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
     <option name="width" value="1370" />
     <option name="height" value="735" />
   </component>
@@ -196,6 +169,7 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -217,28 +191,27 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="Settings.JavaScript" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Ztree/zTree_v3" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="JavaScriptPreferStrict" value="false" />
     <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="F:\mongodb_bishe\bishecode\cloudFileManage\templates\zTree" />
-      <recent name="F:\mongodb_bishe\bishecode\cloudFileManage\templates" />
-      <recent name="F:\mongodb_bishe\bishecode\cloudFileManage\static" />
-      <recent name="F:\mongodb_bishe\bishecode\cloudFileManage" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="F:\mongodb_bishe\bishecode\cloudFileManage\cloudFileManage" />
       <recent name="F:\mongodb_bishe\bishecode\cloudFileManage\static" />
       <recent name="F:\mongodb_bishe\bishecode\cloudFileManage\templates" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\mongodb_bishe\bishecode\cloudFileManage\templates" />
+      <recent name="F:\mongodb_bishe\bishecode\cloudFileManage\templates\zTree" />
+      <recent name="F:\mongodb_bishe\bishecode\cloudFileManage\static" />
+      <recent name="F:\mongodb_bishe\bishecode\cloudFileManage" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -303,7 +276,7 @@
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20121029" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21028744" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295082" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -311,7 +284,7 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295082" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2409836" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23278688" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -320,7 +293,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17512275" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17377049" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -333,11 +306,11 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295082" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295082" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.11311475" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19515885" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.11147541" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20726173" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17512275" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17377049" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -358,54 +331,10 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/templates/UploadFile.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
-          <caret line="24" column="31" lean-forward="false" selection-start-line="24" selection-start-column="31" selection-end-line="24" selection-end-column="31" />
-          <folding>
-            <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#ul#0;n#td#0;n#tr#0;n#table#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="e#19044#19608#0#HTML" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/manage.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cloudFileManage/wsgi.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="15" column="35" lean-forward="false" selection-start-line="15" selection-start-column="35" selection-end-line="15" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cloudFileManage/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cloudFileManage/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="475">
-          <caret line="31" column="20" lean-forward="false" selection-start-line="31" selection-start-column="10" selection-end-line="31" selection-end-column="20" />
-          <folding>
-            <element signature="e#704#736#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://G:/F：/Python/Lib/site-packages/gridfs/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2432">
           <caret line="128" column="0" lean-forward="false" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -414,9 +343,7 @@
         <state relative-caret-position="456">
           <caret line="24" column="31" lean-forward="false" selection-start-line="24" selection-start-column="31" selection-end-line="24" selection-end-column="31" />
           <folding>
-            <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#ul#0;n#td#0;n#tr#0;n#table#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="e#19044#19608#0#HTML" expanded="false" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -571,13 +498,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cloudFileManage/wsgi.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="15" column="35" lean-forward="false" selection-start-line="15" selection-start-column="35" selection-end-line="15" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/manage.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -619,7 +539,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="532">
           <caret line="38" column="50" lean-forward="false" selection-start-line="38" selection-start-column="50" selection-end-line="38" selection-end-column="50" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -627,7 +546,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8949">
           <caret line="488" column="25" lean-forward="false" selection-start-line="488" selection-start-column="25" selection-end-line="488" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -666,25 +584,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/Home.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="348">
-          <caret line="93" column="14" lean-forward="true" selection-start-line="93" selection-start-column="14" selection-end-line="93" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://G:/F：/Python/Lib/site-packages/django/http/response.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4940">
-          <caret line="281" column="8" lean-forward="false" selection-start-line="281" selection-start-column="8" selection-end-line="281" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -700,50 +603,106 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/StreamSaver.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cloudFileManage/view.py">
+    <entry file="file://$PROJECT_DIR$/templates/MytestStream.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="269">
-          <caret line="137" column="46" lean-forward="false" selection-start-line="137" selection-start-column="46" selection-end-line="137" selection-end-column="46" />
+        <state relative-caret-position="418">
+          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://G:/F：/Python/Lib/site-packages/django/http/response.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="281" column="8" lean-forward="false" selection-start-line="281" selection-start-column="8" selection-end-line="281" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudFileManage/wsgi.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="15" column="35" lean-forward="false" selection-start-line="15" selection-start-column="35" selection-end-line="15" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/pycharm.jar!/resources/html5-schema/html5/common.rnc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="145">
+          <caret line="124" column="18" lean-forward="false" selection-start-line="124" selection-start-column="18" selection-end-line="124" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/Mytest_jqtree.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="12" column="15" lean-forward="true" selection-start-line="12" selection-start-column="15" selection-end-line="12" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/testblob.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="74">
+          <caret line="443" column="17" lean-forward="true" selection-start-line="443" selection-start-column="17" selection-end-line="443" selection-end-column="17" />
           <folding>
-            <element signature="e#22#58#0" expanded="true" />
+            <element signature="n#style#0;n#textarea#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cloudFileManage/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="36" column="15" lean-forward="false" selection-start-line="36" selection-start-column="10" selection-end-line="36" selection-end-column="15" />
+        <state relative-caret-position="266">
+          <caret line="42" column="35" lean-forward="true" selection-start-line="42" selection-start-column="35" selection-end-line="42" selection-end-column="35" />
           <folding>
             <element signature="e#704#736#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/Mytest_jqtree.html">
+    <entry file="file://$PROJECT_DIR$/templates/UploadFile.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="35" column="28" lean-forward="true" selection-start-line="35" selection-start-column="8" selection-end-line="35" selection-end-column="28" />
+        <state relative-caret-position="188">
+          <caret line="572" column="50" lean-forward="true" selection-start-line="572" selection-start-column="50" selection-end-line="572" selection-end-column="50" />
           <folding>
-            <element signature="e#396#724#0#HTML" expanded="false" />
-            <element signature="n#style#0;n#TD#0;n#TR#0;n#TABLE#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#ul#0;n#TD#0;n#TR#0;n#TABLE#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/UploadFile.html">
+    <entry file="file://$PROJECT_DIR$/templates/Home.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="241">
-          <caret line="59" column="18" lean-forward="true" selection-start-line="59" selection-start-column="18" selection-end-line="59" selection-end-column="18" />
+        <state relative-caret-position="19">
+          <caret line="132" column="31" lean-forward="false" selection-start-line="132" selection-start-column="25" selection-end-line="132" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharm2017.2/system/python_stubs/153157364/__builtin__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="388">
+          <caret line="1131" column="7" lean-forward="true" selection-start-line="1131" selection-start-column="7" selection-end-line="1131" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudFileManage/view.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="244">
+          <caret line="207" column="41" lean-forward="false" selection-start-line="207" selection-start-column="41" selection-end-line="207" selection-end-column="41" />
           <folding>
-            <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#ul#0;n#td#0;n#tr#0;n#table#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="e#19044#19608#0#HTML" expanded="false" />
+            <element signature="e#22#58#0" expanded="true" />
           </folding>
         </state>
       </provider>

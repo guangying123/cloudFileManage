@@ -45,12 +45,12 @@
             display: -webkit-flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 5%;
+            justify-content: flex-end;
         }
         .drag {
             background: #ffffff;
             height: 350px;
-            margin-top: 13%;
+            margin-top: 40px;
             width: 60%;
             border-radius: 5px;
             position: relative;
@@ -148,7 +148,7 @@
         }
         .dragnotice {
             position: absolute;
-            margin-top: 60%;
+            margin-top: 40%;
             margin-left: 50%;
             transform: translate(-50%,-50%);
         }
@@ -166,26 +166,6 @@
             margin-top: 10px;
             position: relative;
             left: -46px;
-        }
-        #tp {
-            width: 60%;
-        }
-        #diva,#wbdiva{
-            margin-bottom: 10px;
-        }
-        #wbdiv {
-            background: #ffffff;
-            padding: 10px 15px;
-        }
-        #wb {
-            height: 500px;
-            width: 70%;
-            padding: 10px 15px;
-            overscroll-behavior-x: hidden;
-            overflow-x: hidden;
-        }
-        #qt {
-            margin-top: 10%;
         }
     </style>
 </head>
@@ -206,45 +186,31 @@
             </table>
         </div>
         <div class="upmodel">
-            <div id="wjj">
-                <div style="display: flex">
-                    <button class="btn-sm btn-info createfloor" onclick="createfloor()">create floor</button>
-                    <div class="filechoose">
-                          <form class="form-inline">
-                            <div class="form-group">
-                                <div>
-                                    <input type="file" class="form-control-file" id="uploadfile">
-                                </div>
+            <div style="display: flex">
+                <button class="btn-sm btn-info createfloor" onclick="createfloor()">create floor</button>
+                <div class="filechoose">
+                      <form class="form-inline">
+                        <div class="form-group">
+                            <div>
+                                <input type="file" class="form-control-file" id="uploadfile">
                             </div>
-                            <div class="form-group">
-                                     <button id="uploadbtn" class="btn btn-primary"  type="button" onclick="choosefile()"> 上传</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="drag" id="dragplain" ondrop="drop(event)" ondragover="allowDrop(event)">
-                    <div class="dragnotice">
-                        <p>拖拽上传文件</p>
-                        <div class="bigfileion"></div>
-                    </div>
+                        </div>
+                        <div class="form-group">
+                                 <button id="uploadbtn" class="btn btn-primary"  type="button" onclick="choosefile()"> 上传</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <div id="tp">
-                <div id="diva"><span>预览效果：</span><a id="tpa">下载</a></div>
-                <div>
-                    <img id="tpimg" width="100%"/>
+            <div class="drag" id="dragplain" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <div class="dragnotice">
+                    <p>拖拽上传文件</p>
+                    <div class="bigfileion"></div>
                 </div>
-            </div>
-            <div id="wb" >
-                <div id="wbdiva"><span>预览效果：</span><a id="wba">下载</a></div>
-                <div id="wbdiv"></div>
-            </div>
-            <div id="qt" >
-                <div>该文件不支持在线预览，请直接<a id="qta">下载</a>到本地后查看！</div>
             </div>
         </div>
     </div>
 </div>
+<textarea rows="10" cols="30" id="myarea" style="margin-left: 100px"></textarea>
     <script type="text/javascript" src="../templates/crypto-js/crypto-js.js"></script>
     <script>
         const chunkSize = 1*1024*1024;
@@ -258,14 +224,11 @@
         // 文件目录树的结点
         var zNodes = [];
         var curfloor = {pid : "0", name : "root",id : "0000"};
-        var showflag = "wjj";
-        var showflagarr = ["wjj","tp","wb","qt"];
         historyfiles({"username": username}); // 请求已上传的文件
         if(!username) {
             alert("请您先登录系统!");
             window.location.href="/home/";
         }
-         showorhidden(showflag);
         function allowDrop(ev)
         {
             ev.preventDefault();
@@ -340,7 +303,6 @@
                         console.log(alreadychunks);
                              //chunks的切割上传
                         var chunksarrpromise =  new Array();
-                        var filekind = judgefilekind(file.name);
                         for(let curindex = 0;curindex < chunks;curindex++) {
                             if(file.size-start <= chunkSize) {
                                 end = file.size;
@@ -357,32 +319,25 @@
                                     length: 0
                                 };
                                 tempcell.length = end - start;
-                                filder[curindex] = new FileReader();
-                                if(filekind == "wb") {
-                                    filder[curindex].readAsText(file.slice(start, end),"gb2312");
-                                    filder[curindex].onload = function () {
-                                    tempcell.n = curindex;
-                                    tempcell.data = filder[curindex].result;
+                                tempcell.data = file.slice(start, end);
+                                tempcell.n = curindex;
+{#                                filder[curindex] = new FileReader();#}
+{#                                filder[curindex].readAsDataURL(file.slice(start, end));#}
+{#                                filder[curindex].onload = function () {#}
+{#                                    tempcell.n = curindex;#}
+{#                                    if(curindex > 0) {#}
+{#                                     tempcell.data = filder[curindex].result.substring(13);#}
+{#                                    }#}
+{#                                    else {#}
+{#                                        tempcell.data = filder[curindex].result;#}
+{#                                    }#}
                                     //chunk块上传
                                    chunksarrpromise.push(uploading("chunks", tempcell, chunksurl));
-                                    }
-                                }else {
-                                    filder[curindex].readAsDataURL(file.slice(start, end));
-                                    filder[curindex].onload = function () {
-                                    tempcell.n = curindex;
-                                    if(curindex > 0) {
-                                     tempcell.data = filder[curindex].result.substring(13);
-                                    }
-                                    else {
-                                        tempcell.data = filder[curindex].result;
-                                    }
-                                    //chunk块上传
-                                   chunksarrpromise.push(uploading("chunks", tempcell, chunksurl));
-                                    }
                                 }
+                                start = end;
                             }
-                            start = end;
-                        }
+
+{#                        })#}
 
                         var timer = setInterval(() => {
                             if(chunksarrpromise.length == chunks) {
@@ -411,7 +366,10 @@
                     });
                 })
         }
-       
+        // JS utf-8编码
+        function str2utf8(str) {
+            return eval('\''+encodeURI(str).replace(/%/gm, '\\x')+'\'');
+        }
         function isinArray(arr,ele) {
            let len = arr.length;
            for(let i = 0;i < len;i++) {
@@ -511,9 +469,7 @@
                             console.log(values);
                             downloadwithaTag(values, downloadfile);
                         }).catch(err => {
-                             console.log(err)
                             console.log("文件下载失败")
-
                         })
                     }else {
                         sandbox_download(downloadfile);
@@ -560,58 +516,33 @@
         }
         // 合并chunk块，利用a标签download属性进行下载
         function  downloadwithaTag(values,filename) {
-            var url = null;
-            //判断文件类型
-            showflag = judgefilekind(filename);
-            console.log(showflag)
-            console.log(showflag);
-            if(showflag == "wb") {
-                var blob = new Blob([values]);
-                url= URL.createObjectURL(blob);
-                var webdiv = document.getElementById("wbdiv");
-                values.forEach(ele => {
-                    ele = ele.replace(/</g,"&lt");
-                    ele = ele.replace(/>/g,"&gt");
-                    var temptext = document.createTextNode(ele);
-                    webdiv.appendChild(temptext);
-                })
-                let wba =  document.getElementById("wba");
-                wba.setAttribute("href",url);
-                wba.setAttribute("download",filename);
-            }else {
-                url = values.join("");
-                if(showflag == "tp") {
-                   let tpa =  document.getElementById("tpa");
-                   tpa.setAttribute("href",url);
-                   tpa.setAttribute("download",filename);
-                   document.getElementById("tpimg").src=url;
-                }else{
-                    let qta =  document.getElementById("qta");
-                    qta.setAttribute("href",url);
-                    qta.setAttribute("download",filename);
-                }
-            }
-            showorhidden(showflag);
-
+            console.log(values)
+             var aTag = document.createElement("a");
+            aTag.setAttribute("download",filename);
+            var url = URL.createObjectURL(values[0]);
+{#            url = values.join("");#}
+{#            document.getElementById("myarea").innerHTML = url;#}
+            aTag.href = url;
+            aTag.click();
         }
-        function  judgefilekind(filename) {
+        function  isimgorvideo(filename) {
             console.log(filename);
             var temname = filename.split(".");
             var exten_name = temname[temname.length - 1];
              exten_name = exten_name.toLowerCase();
-{#            // 为视频文件#}
-{#            if(exten_name == "mp4" || exten_name == "rmvb" || exten_name == "avi" || exten_name == "ts") {#}
-{#                return "sp";#}
-{#            }#}
+            // 为视频文件
+            if(exten_name == "mp4" || exten_name == "rmvb" || exten_name == "avi" || exten_name == "ts") {
+                return true;
+            }
             // 为图片文件
-            if(exten_name == "bmp" || exten_name == "png" || exten_name == "gif" || exten_name == "jpg" || exten_name == "jpeg" || exten_name=="pdf" || exten_name =="docx" ){
-                return "tp";
+            if(exten_name == "bmp" || exten_name == "png" || exten_name == "gif" || exten_name == "jpg" || exten_name == "jpeg" || exten_name=="pdf" || exten_name =="docx" || exten_name == "txt"){
+                return true;
             }
-           // 文本文件
-             if(exten_name == "txt" || exten_name == "js" || exten_name == "html" || exten_name == "css" || exten_name == "java" || exten_name=="py" || exten_name =="docx" ){
-                return "wb";
+            // 为压缩文件
+            if(exten_name == "zip" || exten_name == "rar" || exten_name == "tar" || exten_name == "gzip" || exten_name == "jar" ) {
+                return true;
             }
-            return "qt";
+            return false;
         }
         // 文件目录树部分
         // 目录树配置设置
@@ -641,7 +572,6 @@
                                 let path =  getpath(treeNode.pId).resu;
                                 dodownload(filename,path);
                             }else {
-                                showorhidden("wjj");
                                 curfloor.pid = treeNode.pId;
                                 curfloor.name = treeNode.name;
                                 curfloor.id = treeNode.id;
@@ -783,13 +713,6 @@
                     zNodes[i].open = true;
                 }
             }
-        }
-        function  showorhidden(showflag) {
-            showflagarr.forEach(ele =>{
-                $('#'+ele).hide();
-            })
-            $('#'+showflag).show()
-            
         }
     </script>
 </body>

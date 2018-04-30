@@ -34,7 +34,13 @@ urlpatterns = [
     url(r'historyfiles/', view.historyfiles),
     url(r'downloadfile/', view.downloadfile),
     url(r'downloadchunk/', view.downloadchunk),
-    url(r'ztree/', view.ztree)
+    url(r'ztree/', view.ztree),
+    url(r'Stream/', view.MytestStream),
+    url(r'testupload/', view.testupload),
+    url(r'createfloor/', view.createfloor),
+    url(r'mytestpost/', view.mytestpost),
+    url(r'testblob/', view.testblob),
+    url(r'getFile/', view.getFile),
 ]
 
 #static resources config
