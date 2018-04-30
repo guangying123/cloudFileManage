@@ -41,6 +41,8 @@ urlpatterns = [
     url(r'mytestpost/', view.mytestpost),
     url(r'testblob/', view.testblob),
     url(r'getFile/', view.getFile),
+    url(r'nodedownload/', view.nodedownload),
+    url(r'nodepost/', view.nodepost),
 ]
 
 #static resources config

@@ -194,7 +194,7 @@
     <div class="nicknamebar">
         <span id="nickname"></span>
     </div>
-{#    <button onclick="createfloor()">新建哪</button>#}
+{#    <button onclick="DLwithlocal()">访问本地服务器</button>#}
     <div class="mainbody">
         <div class="downmodel">
             <table border=0 height=400px align=left>
@@ -247,13 +247,16 @@
 </div>
     <script type="text/javascript" src="../templates/crypto-js/crypto-js.js"></script>
     <script>
-        const chunkSize = 1*1024*1024;
+        const chunkSize = 64*1024;
         const filesurl = "/uploadfilefiles/";
         const chunksurl = "/uploadfilechunks/";
         const historyurl = '/historyfiles/';
         const downloadurl = "/downloadfile/";
         const downloadchunk = '/downloadchunk/';
         const username = sessionStorage.getItem("username");
+
+        const maxfilesize = 3*1024; // 文件大小的阈值
+
         document.getElementById("nickname").innerHTML = username;
         // 文件目录树的结点
         var zNodes = [];
@@ -326,8 +329,6 @@
                  let fileid = floorlen + format_n(floor[floorlen-1].size,3) + format_n(filecount,5);
                 filecount++;
                 zNodes.push({id: fileid, pId: curfloor.id, name: file.name})
-
-
                 console.log("total chunks:  "+chunks)
                 getMD5(file,cellinfo.path,function (summary) {
                     cellinfo._id = summary;
@@ -338,76 +339,81 @@
                         alreadychunks = data.Uploaded;
                         console.log("已上传的chunks数组")
                         console.log(alreadychunks);
-                             //chunks的切割上传
-                        var chunksarrpromise =  new Array();
-                        var filekind = judgefilekind(file.name);
-                        for(let curindex = 0;curindex < chunks;curindex++) {
-                            if(file.size-start <= chunkSize) {
-                                end = file.size;
-                            }else {
-                                end = start + chunkSize;
-                            }
-                            //仅上传未上传的部分
-                            if(!isinArray(alreadychunks,curindex)) {
-                                let tempcell = {
-                                    data: null,
-                                    n: 0,
-                                    file_id: summary,
-                                    username: username,
-                                    length: 0
-                                };
-                                tempcell.length = end - start;
-                                filder[curindex] = new FileReader();
-                                if(filekind == "wb") {
-                                    filder[curindex].readAsText(file.slice(start, end),"gb2312");
-                                    filder[curindex].onload = function () {
-                                    tempcell.n = curindex;
-                                    tempcell.data = filder[curindex].result;
-                                    //chunk块上传
-                                   chunksarrpromise.push(uploading("chunks", tempcell, chunksurl));
-                                    }
-                                }else {
-                                    filder[curindex].readAsDataURL(file.slice(start, end));
-                                    filder[curindex].onload = function () {
-                                    tempcell.n = curindex;
-                                    if(curindex > 0) {
-                                     tempcell.data = filder[curindex].result.substring(13);
-                                    }
-                                    else {
-                                        tempcell.data = filder[curindex].result;
-                                    }
-                                    //chunk块上传
-                                   chunksarrpromise.push(uploading("chunks", tempcell, chunksurl));
+
+                        if(file.length <= maxfilesize) {
+                            //chunks的切割上传
+                            var chunksarrpromise = new Array();
+                            var filekind = judgefilekind(file.name);
+                            for (let curindex = 0; curindex < chunks; curindex++) {
+                                if (file.size - start <= chunkSize) {
+                                    end = file.size;
+                                } else {
+                                    end = start + chunkSize;
+                                }
+                                //仅上传未上传的部分
+                                if (!isinArray(alreadychunks, curindex)) {
+                                    let tempcell = {
+                                        data: null,
+                                        n: 0,
+                                        file_id: summary,
+                                        username: username,
+                                        length: 0
+                                    };
+                                    tempcell.length = end - start;
+                                    filder[curindex] = new FileReader();
+                                    if (filekind == "wb") {
+                                        filder[curindex].readAsText(file.slice(start, end), "gb2312");
+                                        filder[curindex].onload = function () {
+                                            tempcell.n = curindex;
+                                            tempcell.data = filder[curindex].result;
+                                            //chunk块上传
+                                            chunksarrpromise.push(uploading("chunks", tempcell, chunksurl));
+                                        }
+                                    } else {
+                                        filder[curindex].readAsDataURL(file.slice(start, end));
+                                        filder[curindex].onload = function () {
+                                            tempcell.n = curindex;
+                                            if (curindex > 0) {
+                                                tempcell.data = filder[curindex].result.substring(13);
+                                            }
+                                            else {
+                                                tempcell.data = filder[curindex].result;
+                                            }
+                                            //chunk块上传
+                                            chunksarrpromise.push(uploading("chunks", tempcell, chunksurl));
+                                        }
                                     }
                                 }
+                                start = end;
                             }
-                            start = end;
+
+                            var timer = setInterval(() => {
+                                if (chunksarrpromise.length == chunks) {
+                                    clearInterval(timer);
+                                    Promise.all(chunksarrpromise).then((values) => {
+
+                                        file_tree(zNodes);
+                                        alert("文件上传成功!")
+                                    }).catch(err => {
+                                        console.log(err);
+                                        alert("网络错误，上传失败!")
+                                    })
+                                }
+                            }, 500)
+                        }else {
+                            // 请求本地文件上传服务器
+                            let uploaddata = {
+                                kind : "upload",
+                                username: username,
+                                filepath: "F:/my_upload_test/666.jpg",
+                                file_id: summary,
+                                filelength: file.length,
+                                alreadychunks: alreadychunks,
+                                chunkSize: chunkSize,
+                                n: chunks
+                            }
+                            DLwithlocal(uploaddata)
                         }
-
-                        var timer = setInterval(() => {
-                            if(chunksarrpromise.length == chunks) {
-                                clearInterval(timer);
-                                Promise.all(chunksarrpromise).then((values) => {
-
-                                file_tree(zNodes);
-                                alert("文件上传成功!")
-                            }).catch(err => {
-                                console.log(err);
-                                alert("网络错误，上传失败!")
-                            })
-                            }
-                        },500)
-
-{#                        setTimeout(function () {#}
-{#                            Promise.all(chunksarrpromise).then((values) => {#}
-{#                                zNodes = [{id: 100 , pId: 1, name: file.name},...zNodes];#}
-{#                                file_tree(zNodes);#}
-{#                                alert("文件上传成功!")#}
-{#                            }).catch(err => {#}
-{#                                console.log(err);#}
-{#                                alert("网络错误，上传失败!")#}
-{#                            })#}
-{#                            },500)#}
                     });
                 })
         }
@@ -496,27 +502,29 @@
                 type: 'POST',
                 success: function (data,success) {
                     data = JSON.parse(data);
-{#                    var opts = { ...data};#}
-{#                    DLwithlocal(opts);#}
+                    if(data.length <= maxfilesize){
+                        var chunks_n = Math.ceil(data.length/data.chunkSize);
+                        var file_id = data._id;
+                            var promisearr = new Array();
+                            for (let i = 0; i < chunks_n; i++) {
+                                promisearr.push(chunkdownload(file_id, i));
+                            }
+                            Promise.all(promisearr).then((values) => {
+                                console.log(values);
+                                downloadwithaTag(values, downloadfile);
+                            }).catch(err => {
+                                 console.log(err)
+                                console.log("文件下载失败")
 
-                    var chunks_n = Math.ceil(data.length/data.chunkSize);
-                    var file_id = data._id;
-                    var flag = 1; // flag等于1为传统的a标签文件下载   否则为断点续传文件下载
-                    if(flag == 1) {
-                        var promisearr = new Array();
-                        for (let i = 0; i < chunks_n; i++) {
-                            promisearr.push(chunkdownload(file_id, i));
-                        }
-                        Promise.all(promisearr).then((values) => {
-                            console.log(values);
-                            downloadwithaTag(values, downloadfile);
-                        }).catch(err => {
-                             console.log(err)
-                            console.log("文件下载失败")
-
-                        })
+                            })
                     }else {
-                        sandbox_download(downloadfile);
+                        let downloaddata = {
+                            kind: "download",
+                            filedata: data,
+                            username: username,
+                            chunkSize: chunkSize
+                        };
+                        DLwithlocal(downloaddata)
                     }
                 },
                 error: function (err) {
@@ -527,9 +535,12 @@
         }
         //向本地的10001端口发起请求
         function  DLwithlocal(opts) {
+            var mydata = {
+                "data": JSON.stringify(opts)
+            }
             $.ajax({
                 url: "http://localhost:10001",
-                data: opts,
+                data: mydata,
                 success: function (data,status) {
                     console.log(data);
                     console.log(status);

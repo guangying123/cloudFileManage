@@ -177,6 +177,35 @@ def testupload(request):
 def testblob(request):
     return render(request, 'testblob.html');
 
+
+@csrf_exempt
+def nodepost(request):
+    username=request.POST['username']
+    chunks = dict(
+        data=bson.binary.Binary(bytes(request.POST['data'])),
+        n=request.POST['n'],
+        file_id=request.POST['file_id'],
+        username=username,
+        length=request.POST['length']
+    )
+    client = pymongo.MongoClient('localhost', 27017)
+    db = client.cloudfiledb
+    db[username + "filedata"].insert(chunks);
+    return HttpResponse(chunks['username'])
+
+@csrf_exempt
+def nodedownload(request):
+    username = request.POST['username']
+    file_id = request.POST['file_id']
+    n = request.POST['n']
+    client = pymongo.MongoClient('localhost', 27017)
+    db = client.cloudfiledb
+    data = db[username + "filedata"].find_one({"file_id": file_id,"n": n})
+    return  HttpResponse(data['data'])
+
+
+
+
 @csrf_exempt
 def mytestpost(request):
     filename = request.POST['name']
