@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../templates/bootstrap.min.css"/>
     <script src="../templates/jquery-3.3.1.min.js"></script>
     <script src="../templates/bootstrap.min.js"></script>
-    <script src="../templates/sandbox_fileSystem.js"></script>
     <link rel="stylesheet" href="../templates/zTree/css/zTreeStyle/zTreeStyle.css">
     <script type="text/javascript" src="../templates/zTree/js/jquery.ztree.core.js"></script>
     <script src="../templates/StreamSaver.js"></script>
@@ -187,11 +186,37 @@
         #qt {
             margin-top: 10%;
         }
+        .uploading {
+           display: flex;
+            flex-direction: column;
+            width: 250px;
+            height: 150px;
+            align-items: center;
+            justify-content: space-around;
+            position: absolute;
+            background: rgba(0,0,0,0.3);
+            padding: 15px 15px;
+            color: #fff;
+            border-radius: 5px;
+            top: 50%;
+            left: 50%;
+            z-index: 999;
+            transform: translate(-50%,-50%);
+        }
     </style>
 </head>
 <body>
+<div class="uploading" id="uploading">
+    <img src="../templates/process.gif"/>
+    <span>文件上传中...</span>
+</div>
+<div class="uploading" id="downloading">
+    <img src="../templates/download.gif"/>
+    <span>资源获取中...</span>
+</div>
+
 <div>
-    <div class="nicknamebar">
+     <div class="nicknamebar">
         <span id="nickname"></span>
     </div>
 {#    <button onclick="DLwithlocal()">访问本地服务器</button>#}
@@ -254,9 +279,13 @@
         const downloadurl = "/downloadfile/";
         const downloadchunk = '/downloadchunk/';
         const username = sessionStorage.getItem("username");
-
-        const maxfilesize = 3*1024; // 文件大小的阈值
-
+         $("#uploading").hide();
+         $("#downloading").hide()
+        const maxfilesize = chunkSize; // 文件大小的阈值
+        if(!username) {
+                alert("请您先登录系统!");
+                window.location.href="/home/";
+            }
         document.getElementById("nickname").innerHTML = username;
         // 文件目录树的结点
         var zNodes = [];
@@ -264,10 +293,7 @@
         var showflag = "wjj";
         var showflagarr = ["wjj","tp","wb","qt"];
         historyfiles({"username": username}); // 请求已上传的文件
-        if(!username) {
-            alert("请您先登录系统!");
-            window.location.href="/home/";
-        }
+
          showorhidden(showflag);
         function allowDrop(ev)
         {
@@ -304,6 +330,7 @@
             }
         }
         function dealup(file) {
+                $("#uploading").show();
                 var chunks = Math.ceil(file.size/chunkSize);
                 var start = 0,end = 0;
                 var filder = new Array(chunks);
@@ -326,6 +353,7 @@
 
                 cellinfo.path = mypath;
                 let floorlen = mypath.substring(1).split("/").length;
+{#                if(!floor[floorlen-1]){floor[floorlen-1] = new Map()};#}
                  let fileid = floorlen + format_n(floor[floorlen-1].size,3) + format_n(filecount,5);
                 filecount++;
                 zNodes.push({id: fileid, pId: curfloor.id, name: file.name})
@@ -339,8 +367,10 @@
                         alreadychunks = data.Uploaded;
                         console.log("已上传的chunks数组")
                         console.log(alreadychunks);
+                        console.log(file.size + " //  "+maxfilesize )
+                        console.log(file.size <= maxfilesize)
 
-                        if(file.length <= maxfilesize) {
+                        if(file.size <= maxfilesize) {
                             //chunks的切割上传
                             var chunksarrpromise = new Array();
                             var filekind = judgefilekind(file.name);
@@ -391,10 +421,11 @@
                                 if (chunksarrpromise.length == chunks) {
                                     clearInterval(timer);
                                     Promise.all(chunksarrpromise).then((values) => {
-
+                                         $("#uploading").hide();
                                         file_tree(zNodes);
                                         alert("文件上传成功!")
                                     }).catch(err => {
+                                        $("#uploading").hide()
                                         console.log(err);
                                         alert("网络错误，上传失败!")
                                     })
@@ -402,17 +433,25 @@
                             }, 500)
                         }else {
                             // 请求本地文件上传服务器
-                            let uploaddata = {
-                                kind : "upload",
-                                username: username,
-                                filepath: "F:/my_upload_test/666.jpg",
-                                file_id: summary,
-                                filelength: file.length,
-                                alreadychunks: alreadychunks,
-                                chunkSize: chunkSize,
-                                n: chunks
+                            var name=prompt("文件过大，请输入完整的文件路径，并确保本地服务器开启","");
+                            if(name&&name.trim()) {
+                                    let uploaddata = {
+                                    kind : "upload",
+                                    username: username,
+                                    filepath: name+"/"+file.name,
+                                    file_id: summary,
+                                    filelength: file.length,
+                                    alreadychunks: alreadychunks,
+                                    chunkSize: chunkSize,
+                                    n: chunks
+                                }
+                                DLwithlocal(uploaddata)
+                            }else {
+                                //删除掉已上传的元信息文件
+
+
+
                             }
-                            DLwithlocal(uploaddata)
                         }
                     });
                 })
@@ -494,6 +533,7 @@
         }
         //文件下载函数
         function  dodownload(downloadfile,path) {
+            $("#downloading").show()
             var filename = {"filename": downloadfile,"username": username,"path": path};
             console.log(downloadfile);
             $.ajax({
@@ -515,7 +555,8 @@
                             }).catch(err => {
                                  console.log(err)
                                 console.log("文件下载失败")
-
+                                 $("#downloading").hide()
+                                alert("文件下载失败!")
                             })
                     }else {
                         let downloaddata = {
@@ -529,6 +570,7 @@
                 },
                 error: function (err) {
                     console.log(err);
+                    $("#downloading").hide()
                     alert("网络错误");
                 }
             })
@@ -543,8 +585,23 @@
                 data: mydata,
                 success: function (data,status) {
                     console.log(data);
-                    console.log(status);
-
+                    data = JSON.parse(data);
+                    if(data.kind == "upload") {
+                         $("#uploading").hide();
+                        if(data.status == "success") {
+                            file_tree(zNodes)
+                            alert("文件上传成功！")
+                        }else {
+                            alert("文件上传失败!")
+                        }
+                    }else {
+                        $("#downloading").hide()
+                         if(data.status == "success") {
+                            alert("文件下载成功！")
+                        }else {
+                            alert("文件下载失败!")
+                        }
+                    }
                 },
                 error: function (err) {
                     console.log(err);
@@ -576,13 +633,12 @@
             showflag = judgefilekind(filename);
             console.log(showflag)
             console.log(showflag);
+             $("#downloading").hide()
             if(showflag == "wb") {
                 var blob = new Blob([values]);
                 url= URL.createObjectURL(blob);
                 var webdiv = document.getElementById("wbdiv");
                 values.forEach(ele => {
-                    ele = ele.replace(/</g,"&lt");
-                    ele = ele.replace(/>/g,"&gt");
                     var temptext = document.createTextNode(ele);
                     webdiv.appendChild(temptext);
                 })
@@ -763,7 +819,11 @@
                 console.log(mypath)
                 let parentId =  (len - 1) + format_n(floor[len-1].size,3);
                 zNodes.push({id: parentId, pId: curfloor.id, name: name,open: true});
-                floor[len-1].set(name,parentId);
+                 if(!floor[len]) {
+                    var mymap = new Map();
+                    floor[len] = mymap;
+                }
+                floor[len].set(name,parentId);
                 let fileid = len + format_n(floor[len-1].size,3) + format_n(filecount,5);
                 filecount++;
                 zNodes.push({id: fileid, pId: parentId, name: "ignore"});
