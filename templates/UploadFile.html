@@ -15,6 +15,9 @@
             padding: 0;
             margin: 0;
         }
+        .noflow {
+            overflow-x: hidden !important;
+        }
         .nicknamebar {
             height: 50px;
             line-height: 50px;
@@ -203,6 +206,7 @@
             z-index: 999;
             transform: translate(-50%,-50%);
         }
+
     </style>
 </head>
 <body>
@@ -272,7 +276,7 @@
 </div>
     <script type="text/javascript" src="../templates/crypto-js/crypto-js.js"></script>
     <script>
-        const chunkSize = 64*1024;
+        const chunkSize = 1*1024*1024;
         const filesurl = "/uploadfilefiles/";
         const chunksurl = "/uploadfilechunks/";
         const historyurl = '/historyfiles/';
@@ -281,7 +285,7 @@
         const username = sessionStorage.getItem("username");
          $("#uploading").hide();
          $("#downloading").hide()
-        const maxfilesize = chunkSize; // 文件大小的阈值
+        const maxfilesize = 3*chunkSize; // 文件大小的阈值
         if(!username) {
                 alert("请您先登录系统!");
                 window.location.href="/home/";
@@ -435,6 +439,8 @@
                             // 请求本地文件上传服务器
                             var name=prompt("文件过大，请输入完整的文件路径，并确保本地服务器开启","");
                             if(name&&name.trim()) {
+                                console.log(name);
+                                    name = name.replace("\\","/");
                                     let uploaddata = {
                                     kind : "upload",
                                     username: username,
@@ -584,7 +590,6 @@
                 url: "http://localhost:10001",
                 data: mydata,
                 success: function (data,status) {
-                    console.log(data);
                     data = JSON.parse(data);
                     if(data.kind == "upload") {
                          $("#uploading").hide();
@@ -604,6 +609,9 @@
                     }
                 },
                 error: function (err) {
+                    $("#downloading").hide();
+                     $("#uploading").hide();
+                     alert("文件过大，处理需要时间，请在本地server中查看操作是否成功")
                     console.log(err);
                 }
             })
@@ -794,6 +802,9 @@
             $.fn.zTree.destroy("tree");
             var t = $("#tree");
 		    t = $.fn.zTree.init(t, setting, zNodes);
+		    setTimeout(() => {
+		        document.getElementById("tree").classList.add("noflow")
+            },20)
         }
         //新建需要插入一个暂时文件
         function createfloor() {
