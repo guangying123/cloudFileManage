@@ -42,7 +42,6 @@
         }
         .upmodel {
             flex: 1;
-            margin-right: 200px;
             display: flex;
             display: -webkit-flex;
             flex-direction: column;
@@ -51,7 +50,7 @@
         }
         .drag {
             background: #ffffff;
-            height: 350px;
+            height: 250px;
             margin-top: 13%;
             width: 60%;
             border-radius: 5px;
@@ -164,10 +163,11 @@
             border: 1px dashed #a4a4a4;
         }
         .createfloor {
-            height: 30px;
+            height: 26px;
             margin-top: 10px;
             position: relative;
-            left: -46px;
+            line-height: 16px;
+            width: 80px;
         }
         #tp {
             width: 60%;
@@ -206,7 +206,33 @@
             z-index: 999;
             transform: translate(-50%,-50%);
         }
-
+        .uploadfloor {
+            left:20px;
+        }
+        .sffitem {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            float: left;
+            width: 20%;
+            height: 120px;
+            justify-content: center;
+        }
+        .sffitem img {
+            width: 70px;
+        }
+        .sffitem span {
+            font-size: 12px;
+            color: #646464;
+            margin-top: 5px;
+        }
+        .sff {
+            width: 100%;
+            height: 430px;
+            border: 1px solid #a4a4a4;
+            background: #fff;
+            overflow-y: scroll;
+        }
     </style>
 </head>
 <body>
@@ -225,6 +251,10 @@
     </div>
 {#    <button onclick="DLwithlocal()">访问本地服务器</button>#}
     <div class="mainbody">
+        <div id="operator">
+            <button class="btn-sm btn-info createfloor" onclick="createfloor()">new-floor</button>
+            <button class="btn-sm btn-info createfloor uploadfloor" onclick="uploadfloor()">uploadfile</button>
+        </div>
         <div class="downmodel">
             <table border=0 height=400px align=left>
                 <tr>
@@ -235,9 +265,10 @@
             </table>
         </div>
         <div class="upmodel">
+            <div id="sff" class="sff">
+            </div>
             <div id="wjj">
                 <div style="display: flex">
-                    <button class="btn-sm btn-info createfloor" onclick="createfloor()">create floor</button>
                     <div class="filechoose">
                           <form class="form-inline">
                             <div class="form-group">
@@ -294,14 +325,19 @@
         // 文件目录树的结点
         var zNodes = [];
         var curfloor = {pid : "0", name : "root",id : "0000"};
-        var showflag = "wjj";
-        var showflagarr = ["wjj","tp","wb","qt"];
+        var showflag = "sff";
+        var showflagarr = ["sff","wjj","tp","wb","qt"];
+        showorhidden(showflag);
         historyfiles({"username": username}); // 请求已上传的文件
 
-         showorhidden(showflag);
+
+
         function allowDrop(ev)
         {
             ev.preventDefault();
+        }
+        function  uploadfloor() {
+            showorhidden("wjj")
         }
         function drop(ev) {
             ev.preventDefault();
@@ -348,8 +384,9 @@
                     uploadDate: (new Date()).getTime(),
                     path: '/root'
                 };
-                let  mypath = getpath(curfloor.pid).resu;
-                showfloor(mypath);
+                let getmypathobj = getpath(curfloor.pid);
+                let  mypath = getmypathobj.resu;
+                showfloor(getmypathobj.pathId);
                 mypath +="/"+curfloor.name;
                 console.log("here");
                 console.log(mypath);
@@ -530,6 +567,7 @@
                         zNodes[0].open = true;
                     }
                     file_tree(zNodes);
+                    floor_file_show();
                 },
                 error: function (err) {
                     console.log(err);
@@ -667,7 +705,14 @@
                 }
             }
             showorhidden(showflag);
-
+        }
+        function  isvideo(filename) {
+            var temname = filename.split(".");
+            var exten_name = temname[temname.length - 1];
+            exten_name = exten_name.toLowerCase();
+             if(exten_name == "mp4" || exten_name == "rmvb" || exten_name == "avi" || exten_name == "ts" ||exten_name == "wmv")
+             return true;
+             return false;
         }
         function  judgefilekind(filename) {
             console.log(filename);
@@ -707,7 +752,68 @@
             callback: {
                 beforeClick: function(treeId, treeNode) {
                     console.log(treeNode);
-                    let filename = treeNode.name;
+                   file_floor(treeNode)
+                }
+            }
+	    }
+	    function floor_file_show() {
+            console.log("show file floor :")
+            console.log(curfloor);
+            var sff = document.getElementById("sff");
+            while(sff.hasChildNodes()) {
+                sff.removeChild(sff.firstChild)
+            };
+            var noewfiles = zNodes.filter(ele => {
+                return ele.pId == curfloor.id;
+            });
+            noewfiles.forEach(ele => {
+                let temsffdiv = document.createElement("div");
+                temsffdiv.setAttribute("class","sffitem");
+                let tempsffimg = document.createElement("img");
+                if(ele.name.indexOf(".") == -1&&ele.name !="ignore"){
+                    tempsffimg.src = "../templates/showfloor.png";
+                }else {
+                    if(isvideo(ele.name)) {
+                        tempsffimg.src = "../templates/shipin.png"
+                    }else {
+                        if(judgefilekind(ele.name) == "tp"){
+                            tempsffimg.src = "../templates/shipin.png"
+                        }else {
+                            tempsffimg.src = "../templates/filetxt.png"
+                        }
+                    }
+                }
+                temsffdiv.appendChild(tempsffimg);
+                let tempsffspan = document.createElement("span");
+                tempsffspan.innerHTML = ele.name;
+                temsffdiv.setAttribute("id",ele.id+"|"+ele.pId+"|"+ele.name);
+                temsffdiv.appendChild(tempsffspan);
+                sff.appendChild(temsffdiv);
+                temsffdiv.addEventListener("click",(e) => {
+                    console.log("see here")
+                    let curtargetId = e.currentTarget.id;
+                    let tempcurtargetId = curtargetId.split("|");
+                    let obj = {
+                        id: tempcurtargetId[0],
+                        pId: tempcurtargetId[1],
+                        name: tempcurtargetId[2]
+                    };
+                    file_floor(obj);
+                    if(obj.name.indexOf(".") == -1 &&obj.name != "ignore") {
+                         let len = zNodes.length;
+                        for(let i =0;i < len;i++) {
+                            if(zNodes[i].id == obj.id) {
+                                 zNodes[i].open = true;
+                                 file_tree(zNodes);
+                                 break;
+                            }
+                        }
+                    }
+                })
+            })
+        }
+	    function file_floor(treeNode) {
+             let filename = treeNode.name;
                     if(filename != "ignore") {
                           if(filename.indexOf(".")!= -1) { // 对文件进行下载
                                 curfloor.pid = "0";
@@ -716,15 +822,14 @@
                                 let path =  getpath(treeNode.pId).resu;
                                 dodownload(filename,path);
                             }else {
-                                showorhidden("wjj");
                                 curfloor.pid = treeNode.pId;
                                 curfloor.name = treeNode.name;
                                 curfloor.id = treeNode.id;
+                                showorhidden("sff");
+                                floor_file_show();
                             }
                     }
-                }
-            }
-	    }
+        }
 
 	    // 获取到的数据到zNodes的映射
         var floor = new Array();
