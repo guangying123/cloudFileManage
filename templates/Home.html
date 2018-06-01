@@ -51,9 +51,18 @@
             color: #ffffff;
             font-size: 18px;
         }
+         #sysname {
+            position: absolute;
+             width: 25%;
+            height: 50px;
+            z-index: 999;
+            bottom: 0;
+            background-color: #fff;
+        }
     </style>
 </head>
 <body>
+<div id="sysname"></div>
     <div class="homeContainer">
         <div class="nametitle">云文件管理系统</div>
         <div class="login_registe_nav">
@@ -123,8 +132,8 @@
                 });
             }
         }
-        //注册
-        function toregist() {
+
+        function toregist() {   //注册
             let name = document.querySelector("#regist_username").value;
             let password = document.querySelector("#regist_password").value;
             if(!isvalid(name) || !isvalid(password)) {

@@ -9,7 +9,6 @@
     <script src="../templates/bootstrap.min.js"></script>
     <link rel="stylesheet" href="../templates/zTree/css/zTreeStyle/zTreeStyle.css">
     <script type="text/javascript" src="../templates/zTree/js/jquery.ztree.core.js"></script>
-    <script src="../templates/StreamSaver.js"></script>
     <style>
         * {
             padding: 0;
@@ -225,6 +224,12 @@
             font-size: 12px;
             color: #646464;
             margin-top: 5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: inline-block;
+            white-space: nowrap;
+            width: 100%;
+            text-align: center;
         }
         .sff {
             width: 100%;
@@ -233,9 +238,11 @@
             background: #fff;
             overflow-y: scroll;
         }
+
     </style>
 </head>
 <body>
+
 <div class="uploading" id="uploading">
     <img src="../templates/process.gif"/>
     <span>文件上传中...</span>
@@ -397,20 +404,15 @@
 {#                if(!floor[floorlen-1]){floor[floorlen-1] = new Map()};#}
                  let fileid = floorlen + format_n(floor[floorlen-1].size,3) + format_n(filecount,5);
                 filecount++;
-                zNodes.push({id: fileid, pId: curfloor.id, name: file.name})
                 console.log("total chunks:  "+chunks)
                 getMD5(file,cellinfo.path,function (summary) {
                     cellinfo._id = summary;
-                    console.log("元信息数组")
-                    console.log(cellinfo);
                     //元文件信息上传,（含断点续传的元文件信息的获取）
                     uploading("files",cellinfo,filesurl,function (data) {
                         alreadychunks = data.Uploaded;
-                        console.log("已上传的chunks数组")
-                        console.log(alreadychunks);
-                        console.log(file.size + " //  "+maxfilesize )
-                        console.log(file.size <= maxfilesize)
-
+                        if(alreadychunks.length == 0) {
+                            zNodes.push({id: fileid, pId: curfloor.id, name: file.name})
+                        }
                         if(file.size <= maxfilesize) {
                             //chunks的切割上传
                             var chunksarrpromise = new Array();
